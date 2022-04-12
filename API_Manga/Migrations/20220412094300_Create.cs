@@ -27,29 +27,17 @@ namespace API_Manga.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
+                    id_User = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     Nome = table.Column<string>(type: "TEXT", nullable: false),
                     Cognome = table.Column<string>(type: "TEXT", nullable: false),
                     DataDiNascita = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Nazione = table.Column<string>(type: "TEXT", nullable: false),
-                    UserName = table.Column<string>(type: "TEXT", nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "TEXT", nullable: true),
-                    Email = table.Column<string>(type: "TEXT", nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "TEXT", nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "INTEGER", nullable: false),
-                    PasswordHash = table.Column<string>(type: "TEXT", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "TEXT", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "TEXT", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "TEXT", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "INTEGER", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "INTEGER", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "TEXT", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "INTEGER", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "INTEGER", nullable: false)
+                    Email = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.PrimaryKey("PK_Users", x => x.id_User);
                 });
 
             migrationBuilder.CreateTable(
@@ -78,7 +66,7 @@ namespace API_Manga.Migrations
                 {
                     id_Post = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    CreatorId = table.Column<string>(type: "TEXT", nullable: true),
+                    Creatorid_User = table.Column<int>(type: "INTEGER", nullable: true),
                     Topicid_Topic = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
@@ -91,10 +79,10 @@ namespace API_Manga.Migrations
                         principalColumn: "id_Topic",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Posts_Users_CreatorId",
-                        column: x => x.CreatorId,
+                        name: "FK_Posts_Users_Creatorid_User",
+                        column: x => x.Creatorid_User,
                         principalTable: "Users",
-                        principalColumn: "Id",
+                        principalColumn: "id_User",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -104,7 +92,7 @@ namespace API_Manga.Migrations
                 {
                     id_Reply = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    CreatorId = table.Column<string>(type: "TEXT", nullable: true),
+                    Creatorid_User = table.Column<int>(type: "INTEGER", nullable: true),
                     Reply = table.Column<string>(type: "TEXT", nullable: false),
                     ReplyDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     ForumPostid_Post = table.Column<int>(type: "INTEGER", nullable: true)
@@ -119,17 +107,17 @@ namespace API_Manga.Migrations
                         principalColumn: "id_Post",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Replies_Users_CreatorId",
-                        column: x => x.CreatorId,
+                        name: "FK_Replies_Users_Creatorid_User",
+                        column: x => x.Creatorid_User,
                         principalTable: "Users",
-                        principalColumn: "Id",
+                        principalColumn: "id_User",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Posts_CreatorId",
+                name: "IX_Posts_Creatorid_User",
                 table: "Posts",
-                column: "CreatorId");
+                column: "Creatorid_User");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Posts_Topicid_Topic",
@@ -137,9 +125,9 @@ namespace API_Manga.Migrations
                 column: "Topicid_Topic");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Replies_CreatorId",
+                name: "IX_Replies_Creatorid_User",
                 table: "Replies",
-                column: "CreatorId");
+                column: "Creatorid_User");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Replies_ForumPostid_Post",

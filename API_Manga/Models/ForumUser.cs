@@ -7,8 +7,11 @@ using System.Threading.Tasks;
 
 namespace API_Manga.Models
 {
-    public class ForumUser : IdentityUser
+    public class ForumUser 
     {
+        [Key]
+        [Required]
+        public int id_User { get; set; }
         [Required]
         public string Nome { get; set; }
         [Required]
@@ -17,6 +20,8 @@ namespace API_Manga.Models
         public DateTime DataDiNascita { get; set; }
         [Required]
         public string Nazione { get; set; }
+        [Required]
+        public string Email { get; set; }
 
 
     }

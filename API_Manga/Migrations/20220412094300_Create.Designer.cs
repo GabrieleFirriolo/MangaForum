@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API_Manga.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220412093233_Create")]
+    [Migration("20220412094300_Create")]
     partial class Create
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,15 +24,15 @@ namespace API_Manga.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("CreatorId")
-                        .HasColumnType("TEXT");
+                    b.Property<int?>("Creatorid_User")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int?>("Topicid_Topic")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("id_Post");
 
-                    b.HasIndex("CreatorId");
+                    b.HasIndex("Creatorid_User");
 
                     b.HasIndex("Topicid_Topic");
 
@@ -45,8 +45,8 @@ namespace API_Manga.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("CreatorId")
-                        .HasColumnType("TEXT");
+                    b.Property<int?>("Creatorid_User")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int?>("ForumPostid_Post")
                         .HasColumnType("INTEGER");
@@ -60,7 +60,7 @@ namespace API_Manga.Migrations
 
                     b.HasKey("id_Reply");
 
-                    b.HasIndex("CreatorId");
+                    b.HasIndex("Creatorid_User");
 
                     b.HasIndex("ForumPostid_Post");
 
@@ -89,32 +89,19 @@ namespace API_Manga.Migrations
 
             modelBuilder.Entity("API_Manga.Models.ForumUser", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("AccessFailedCount")
+                    b.Property<int>("id_User")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Cognome")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("ConcurrencyStamp")
-                        .HasColumnType("TEXT");
-
                     b.Property<DateTime>("DataDiNascita")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Nazione")
@@ -125,31 +112,7 @@ namespace API_Manga.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("NormalizedEmail")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("UserName")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
+                    b.HasKey("id_User");
 
                     b.ToTable("Users");
                 });
@@ -184,7 +147,7 @@ namespace API_Manga.Migrations
                 {
                     b.HasOne("API_Manga.Models.ForumUser", "Creator")
                         .WithMany()
-                        .HasForeignKey("CreatorId");
+                        .HasForeignKey("Creatorid_User");
 
                     b.HasOne("API_Manga.Models.ForumTopic", "Topic")
                         .WithMany()
@@ -199,7 +162,7 @@ namespace API_Manga.Migrations
                 {
                     b.HasOne("API_Manga.Models.ForumUser", "Creator")
                         .WithMany()
-                        .HasForeignKey("CreatorId");
+                        .HasForeignKey("Creatorid_User");
 
                     b.HasOne("API_Manga.Models.ForumPost", null)
                         .WithMany("Replies")
