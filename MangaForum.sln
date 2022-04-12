@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MangaForum", "MangaForum\MangaForum.csproj", "{06643778-6E6E-498A-99EE-162D1D441F3D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API_Manga", "API_Manga\API_Manga.csproj", "{BD7C776E-46D3-476D-8BDC-C625232CD520}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{06643778-6E6E-498A-99EE-162D1D441F3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06643778-6E6E-498A-99EE-162D1D441F3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06643778-6E6E-498A-99EE-162D1D441F3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06643778-6E6E-498A-99EE-162D1D441F3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD7C776E-46D3-476D-8BDC-C625232CD520}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD7C776E-46D3-476D-8BDC-C625232CD520}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD7C776E-46D3-476D-8BDC-C625232CD520}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD7C776E-46D3-476D-8BDC-C625232CD520}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {35417A92-07CC-4C08-B5B2-D0ECFD49CFD9}
+	EndGlobalSection
+EndGlobal
