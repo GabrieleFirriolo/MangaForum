@@ -11,12 +11,17 @@ namespace API_Manga.Models
         [Key]
         public int id_Manga { get; set; }
         [Required]
-        public string Titolo { get; set; }
+        public string Title { get; set; }
         [Required]
-        public string Creator { get; set; }
-        [Required]
-        public DateTime AnnoPubblicazione { get; set; }
+        public string Status { get; set; }
         [Required]
         public string Image { get; set; }
+        [Required]
+        public string Author { get; set; }
+  
+        [Required]
+        public string Synopsis { get; set; }
+
     }
+
 }

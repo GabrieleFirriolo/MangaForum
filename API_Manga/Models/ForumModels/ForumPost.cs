@@ -17,5 +17,12 @@ namespace API_Manga.Models
         public ForumTopic Topic { get; set; }
         [Required]
         public List<ForumReply> Replies { get; set; }
+
+        public ForumPost(ForumUser creator, ForumTopic topic, List<ForumReply> Replies)
+        {
+            this.Creator = creator;
+            this.Topic = topic;
+            this.Replies = Replies;
+        }
     }
 }

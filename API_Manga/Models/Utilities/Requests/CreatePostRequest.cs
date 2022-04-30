@@ -12,6 +12,9 @@ namespace API_Manga.Models.Utilities.Requests
         public ForumUser Creator { get; set; }
         [Required]
         public ForumTopic Topic { get; set; }
-        public List<ForumReply> Replies { get; set; }
+
+        [Required]
+        public string Message { get; set; }
+
     }
 }

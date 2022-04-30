@@ -17,5 +17,12 @@ namespace API_Manga.Models
         public string Reply { get; set; }
         [Required]
         public DateTime ReplyDate { get; set; }
+
+        public ForumReply(ForumUser creator, string reply,DateTime replydate)
+        {
+            Creator = creator;
+            Reply = reply;
+            ReplyDate = replydate;
+        }
     }
 }

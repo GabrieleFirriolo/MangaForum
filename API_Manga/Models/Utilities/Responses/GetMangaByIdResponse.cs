@@ -7,7 +7,7 @@ namespace API_Manga.Models.Utilities.Responses
 {
     public class GetMangaByIdResponse : DefaultResponse
     {
-        public List<Manga> mangas { get; set; }
+        public Manga manga { get; set; }
 
     }
 }
