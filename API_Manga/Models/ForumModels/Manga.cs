@@ -17,7 +17,6 @@ namespace API_Manga.Models
         [Required]
         public DateTime AnnoPubblicazione { get; set; }
         [Required]
-
         public string Image { get; set; }
     }
 }
