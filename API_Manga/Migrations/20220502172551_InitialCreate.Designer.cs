@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API_Manga.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220502120643_InitialCreate")]
+    [Migration("20220502172551_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -48,7 +48,7 @@ namespace API_Manga.Migrations
                     b.Property<int?>("Creatorid_User")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("ForumPostid_Post")
+                    b.Property<int>("Postid_Post")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Reply")
@@ -62,7 +62,7 @@ namespace API_Manga.Migrations
 
                     b.HasIndex("Creatorid_User");
 
-                    b.HasIndex("ForumPostid_Post");
+                    b.HasIndex("Postid_Post");
 
                     b.ToTable("Replies");
                 });
@@ -169,11 +169,15 @@ namespace API_Manga.Migrations
                         .WithMany()
                         .HasForeignKey("Creatorid_User");
 
-                    b.HasOne("API_Manga.Models.ForumPost", null)
+                    b.HasOne("API_Manga.Models.ForumPost", "Post")
                         .WithMany("Replies")
-                        .HasForeignKey("ForumPostid_Post");
+                        .HasForeignKey("Postid_Post")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Creator");
+
+                    b.Navigation("Post");
                 });
 
             modelBuilder.Entity("API_Manga.Models.ForumTopic", b =>

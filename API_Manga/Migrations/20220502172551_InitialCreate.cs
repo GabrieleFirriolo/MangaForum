@@ -96,17 +96,17 @@ namespace API_Manga.Migrations
                     Creatorid_User = table.Column<int>(type: "INTEGER", nullable: true),
                     Reply = table.Column<string>(type: "TEXT", nullable: false),
                     ReplyDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    ForumPostid_Post = table.Column<int>(type: "INTEGER", nullable: true)
+                    Postid_Post = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Replies", x => x.id_Reply);
                     table.ForeignKey(
-                        name: "FK_Replies_Posts_ForumPostid_Post",
-                        column: x => x.ForumPostid_Post,
+                        name: "FK_Replies_Posts_Postid_Post",
+                        column: x => x.Postid_Post,
                         principalTable: "Posts",
                         principalColumn: "id_Post",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Replies_Users_Creatorid_User",
                         column: x => x.Creatorid_User,
@@ -131,9 +131,9 @@ namespace API_Manga.Migrations
                 column: "Creatorid_User");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Replies_ForumPostid_Post",
+                name: "IX_Replies_Postid_Post",
                 table: "Replies",
-                column: "ForumPostid_Post");
+                column: "Postid_Post");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Topics_Mangaid_Manga",

@@ -10,7 +10,6 @@ namespace API_Manga.Models
     public class ForumUser 
     {
         [Key]
-        [Required]
         public int id_User { get; set; }
         [Required]
         public string Nome { get; set; }

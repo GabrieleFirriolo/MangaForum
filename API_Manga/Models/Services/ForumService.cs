@@ -102,6 +102,10 @@ namespace API_Manga.Models.Services
 
         public async Task<PostResponse> GetPostsOfTopic(int id)
         {
+            var listu = _context.Users.ToListAsync();
+            var listt = _context.Topics.ToListAsync();
+            var listm = _context.Mangas.ToListAsync();
+            var listr = _context.Replies.ToListAsync();
             var Posts = await _context.Posts.Where(post => post.Topic.id_Topic == id).ToListAsync();
             if (Posts.Count() == 0)
             {
@@ -123,7 +127,16 @@ namespace API_Manga.Models.Services
 
         public async Task<PostResponse> GetPostsOfUser(int id)
         {
-            var Posts = await _context.Posts.Where(post => post.Creator.id_User == id).ToListAsync();
+            //TEMP
+            //var listu = _context.Users.ToListAsync();
+            //var listt = _context.Topics.ToListAsync();
+            //var listm = _context.Mangas.ToListAsync();
+            //var listr = _context.Replies.ToListAsync();
+            //var Posts = await _context.Posts.Where(x => x.Creator.id_User == id).ToListAsync();
+
+            var Posts = await _context.Users.Where(x => x.id_User == id).Join(_context.Posts, u => u.id_User, p => p.Creator.id_User, (u, p) => p).ToListAsync();
+             //.Join(_context.Topics, p => p.Topic, t => t.id_Topic).ToListAsync();
+
             if (Posts.Count() == 0)
             {
                 return new PostResponse()
@@ -144,6 +157,9 @@ namespace API_Manga.Models.Services
     
         public async Task<ReplyResponse> GetRepliesOfUser(int id)
         {
+            var listp = _context.Posts.ToListAsync();
+            var listu = _context.Users.ToListAsync();
+            var listt = _context.Topics.ToListAsync();
             var Replies = await _context.Replies.Where(reply => reply.Creator.id_User == id).ToListAsync();
             if (Replies.Count() == 0)
             {
@@ -165,6 +181,10 @@ namespace API_Manga.Models.Services
 
         public async Task<PostResponse> GetPostById(int id)
         {
+            var listu = _context.Users.ToListAsync();
+            var listt = _context.Topics.ToListAsync();
+            var listm = _context.Mangas.ToListAsync();
+            var listr = _context.Replies.ToListAsync();
             var Posts = await _context.Posts.Where(post => post.id_Post == id).ToListAsync();
             if (Posts.Count() == 0)
             {
@@ -186,6 +206,9 @@ namespace API_Manga.Models.Services
 
         public async  Task<TopicResponse> GetTopicByName(string name)
         {
+            var listp = _context.Posts.ToListAsync();
+            var listm = _context.Mangas.ToListAsync();
+            var listr = _context.Replies.ToListAsync();
             var Topics = await _context.Topics.Where(topic => topic.Name.ToLower().Contains(name.ToLower().Trim())).ToListAsync();
             if (Topics.Count() == 0)
             {

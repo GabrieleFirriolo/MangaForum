@@ -24,21 +24,21 @@ namespace API_Manga.Controllers
         }
 
         #region Manga Methods
-        [HttpGet("manga")]
+        [HttpGet("getallmanga")]
 
         public Task<IEnumerable<Manga>> GetAllMangas()
         {
             return _forumService.GetAllMangas();
 
         }
-        [HttpGet("manga/{id}")]
+        [HttpGet("manga/byid={id}")]
 
         public Task<GetMangaByIdResponse> GetMangaById(int id)
         {
             return _forumService.GetMangaById(id);
 
         }
-        [HttpGet("manga/{name}")]
+        [HttpGet("manga/byname={name}")]
 
         public Task<GetMangaByNameResponse> GetMangaByName(string name)
         {
@@ -50,26 +50,26 @@ namespace API_Manga.Controllers
 
         #region GET Methods
 
-        [HttpGet("topic/{name}")]
+        [HttpGet("topic/byname={name}")]
 
         public Task<TopicResponse> GetTopicByName(string name)
         {
             return _forumService.GetTopicByName(name);
         }
 
-        [HttpGet("userposts/{id}")]
+        [HttpGet("userposts/byid={id}")]
 
         public Task<PostResponse> GetPostsOfUser(int id)
         {
             return _forumService.GetPostsOfUser(id);
         }
-        [HttpGet("topicposts/{id}")]
+        [HttpGet("topicposts/byid={id}")]
 
         public Task<PostResponse> GetPostsOfTopic(int id)
         {
             return _forumService.GetPostsOfTopic(id);
         }
-        [HttpGet("userreplies/{id}")]
+        [HttpGet("userreplies/byid={id}")]
 
         public Task<ReplyResponse> GetRepliesOfUser(int id)
         {
