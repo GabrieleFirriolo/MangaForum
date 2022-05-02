@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace API_Manga.Migrations
 {
-    public partial class Create : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,10 +13,11 @@ namespace API_Manga.Migrations
                 {
                     id_Manga = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Titolo = table.Column<string>(type: "TEXT", nullable: false),
-                    Creator = table.Column<string>(type: "TEXT", nullable: false),
-                    AnnoPubblicazione = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Image = table.Column<string>(type: "TEXT", nullable: false)
+                    Title = table.Column<string>(type: "TEXT", nullable: false),
+                    Status = table.Column<string>(type: "TEXT", nullable: false),
+                    Image = table.Column<string>(type: "TEXT", nullable: false),
+                    Author = table.Column<string>(type: "TEXT", nullable: false),
+                    Synopsis = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {

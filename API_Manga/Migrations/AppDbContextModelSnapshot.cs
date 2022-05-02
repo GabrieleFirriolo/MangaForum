@@ -121,10 +121,7 @@ namespace API_Manga.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("AnnoPubblicazione")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Creator")
+                    b.Property<string>("Author")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -132,7 +129,15 @@ namespace API_Manga.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Titolo")
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Synopsis")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("TEXT");
 

@@ -18,10 +18,8 @@ namespace API_Manga.Controllers
     public class MangaController : ControllerBase
     {
         private readonly IForumService _forumService;
-        private readonly AppDbContext _context;
-        public MangaController(IForumService forumservice, AppDbContext context)
+        public MangaController(IForumService forumservice)
         {
-            _context = context;
             _forumService = forumservice;
         }
 
@@ -51,58 +49,50 @@ namespace API_Manga.Controllers
         #region Forum Methods
 
         #region GET Methods
-        public Task<PostResponse> GetPostByName(string name)
-        {
-            return _forumService.GetPostByName(name);
-        }
+
+        [HttpGet("topic/{name}")]
 
         public Task<TopicResponse> GetTopicByName(string name)
         {
             return _forumService.GetTopicByName(name);
         }
 
-        [HttpGet("usernumposts/{id}")]
+        [HttpGet("userposts/{id}")]
 
-        public Task<PostResponse> GetNumPostsOfUser(int id)
+        public Task<PostResponse> GetPostsOfUser(int id)
         {
-            return _forumService.GetNumPostsOfUser(id);
+            return _forumService.GetPostsOfUser(id);
         }
-        [HttpGet("topicnumposts/{id}")]
+        [HttpGet("topicposts/{id}")]
 
-        public Task<PostResponse> GetNumPostsOfTopic(int id)
+        public Task<PostResponse> GetPostsOfTopic(int id)
         {
-            return _forumService.GetNumPostsOfTopic(id);
+            return _forumService.GetPostsOfTopic(id);
         }
-        [HttpGet("usernumreplies/{id}")]
+        [HttpGet("userreplies/{id}")]
 
-        public Task<ReplyResponse> GetNumRepliesOfUser(int id)
+        public Task<ReplyResponse> GetRepliesOfUser(int id)
         {
-            return _forumService.GetNumRepliesOfUser(id);
-        }
-        [HttpGet("postnumreplies/{id}")]
-
-        public Task<ReplyResponse> GetNumRepliesOfPost(int id)
-        {
-            return _forumService.GetNumRepliesOfPost(id);
+            return _forumService.GetRepliesOfUser(id);
         }
         #endregion
 
         #region POST Methods
         //POST api/<Manga>
         [HttpPost("CreatePost")]
-        public Task<PostResponse> CreatePost([FromBody] CreatePostRequest post)
+        public Task<CreatePostResponse> CreatePost([FromBody] CreatePostRequest post)
         {
             return _forumService.CreatePost(post);
         }
         [HttpPost("CreateReply")]
 
-        public Task<ReplyResponse> CreateReply([FromBody] CreateReplyRequest post)
+        public Task<CreateReplyResponse> CreateReply([FromBody] CreateReplyRequest post)
         {
             return _forumService.CreateReply(post);
         }
         [HttpPost("CreateTopic")]
 
-        public Task<TopicResponse> CreateTopic([FromBody] CreateTopicRequest post)
+        public Task<CreateTopicResponse> CreateTopic([FromBody] CreateTopicRequest post)
         {
             return _forumService.CreateTopic(post);
 

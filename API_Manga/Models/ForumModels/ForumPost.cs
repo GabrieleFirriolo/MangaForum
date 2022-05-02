@@ -24,5 +24,7 @@ namespace API_Manga.Models
             this.Topic = topic;
             this.Replies = Replies;
         }
+        public ForumPost()
+        { }
     }
 }
