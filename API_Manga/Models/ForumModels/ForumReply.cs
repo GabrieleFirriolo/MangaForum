@@ -20,7 +20,14 @@ namespace API_Manga.Models
         [Required]
         public ForumPost Post { get; set; }
 
-        public ForumReply(ForumUser creator, string reply,DateTime replydate)
+        public ForumReply(ForumUser creator, string reply,DateTime replydate,ForumPost post)
+        {
+            Creator = creator;
+            Reply = reply;
+            ReplyDate = replydate;
+            Post = post;
+        }
+        public ForumReply(ForumUser creator, string reply, DateTime replydate)
         {
             Creator = creator;
             Reply = reply;

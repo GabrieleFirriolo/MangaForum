@@ -11,6 +11,6 @@ namespace API_Manga.Models.Utilities.Requests
         [Required]
         public string Name { get; set; }
         [Required]
-        public Manga Manga { get; set; }
+        public int id_Manga { get; set; }
     }
 }

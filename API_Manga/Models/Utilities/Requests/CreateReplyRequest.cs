@@ -9,10 +9,11 @@ namespace API_Manga.Models.Utilities.Requests
     public class CreateReplyRequest
     {
         [Required]
-        public ForumUser Creator { get; set; }
+        public int id_Creator { get; set; }
+        [Required]
+        public int id_Post { get; set; }
         [Required]
         public string Reply { get; set; }
-        [Required]
-        public DateTime ReplyDate { get; set; }
+
     }
 }
