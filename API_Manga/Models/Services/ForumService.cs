@@ -145,6 +145,9 @@ namespace API_Manga.Models.Services
             };
         }
 
+
+
+
         public async Task<IEnumerable<Manga>> GetAllMangas()
         {
             return await _context.Mangas.ToListAsync();
@@ -336,6 +339,21 @@ namespace API_Manga.Models.Services
                 Error = null,
 
             };
+        }
+
+        public Task<DeleteReplyResponse> DeleteReply(DeleteReplyRequest request)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<DeleteTopicResponse> DeleteTopic(DeleteTopicRequest request)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<DeletePostResponse> DeletePost(DeletePostRequest request)
+        {
+            throw new NotImplementedException();
         }
 
     }
