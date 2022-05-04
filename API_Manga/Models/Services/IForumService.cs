@@ -28,6 +28,12 @@ namespace API_Manga.Models.Services
         public Task<DeleteTopicResponse> DeleteTopic(DeleteTopicRequest request);
         public Task<DeletePostResponse> DeletePost(DeletePostRequest request);
 
+        public Task<CreateTopicResponse> ModTopic(ModTopicRequest request);
+        public Task<CreateReplyResponse> ModReply(ModReplyRequest request);
+
+
+
+
 
 
     }

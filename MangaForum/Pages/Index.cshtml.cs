@@ -20,7 +20,7 @@ namespace MangaForum.Pages
         
         public async Task<IActionResult> OnGet()
         {
-
+            return Page();
         }
     }
 }

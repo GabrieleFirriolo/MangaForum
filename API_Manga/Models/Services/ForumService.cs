@@ -17,136 +17,7 @@ namespace API_Manga.Models.Services
             _context = context;
         }
 
-        public async Task<CreatePostResponse> CreatePost(CreatePostRequest request)
-        {
-            await (from p in _context.Posts
-                   select new
-                   {
-                       p.Creator,
-                       p.Topic,
-                       p.Topic.Manga,
-                       p.Replies
-                   }).ToListAsync();
-
-            ForumPost Post = new ForumPost();
-            try
-            {
-                 Post = new ForumPost(_context.Users.Where(x => x.id_User == request.id_Creator).FirstOrDefault(),
-              _context.Posts.Where(x => x.Topic.id_Topic == request.id_Topic).FirstOrDefault().Topic,
-              new List<ForumReply> {
-                    new ForumReply
-                    (
-                        _context.Posts.Where(x => x.Creator.id_User == request.id_Creator).FirstOrDefault().Creator,
-                        request.Message,
-                        DateTime.Now.Date
-                        )
-
-              });;
-                await _context.AddAsync(Post);
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException ex)
-            {
-                return new CreatePostResponse()
-                {
-                    state = false,
-                    post = null,
-                    Error = new List<string> { ex.Message }
-                };
-            }
-            return new CreatePostResponse()
-            {
-                state = false,
-                post  = Post,
-                Error = null
-            };
-        }
-
-        public async Task<CreateReplyResponse> CreateReply(CreateReplyRequest request)
-        {
-            await (from p in _context.Posts
-                   select new
-                   {
-                       p.Creator,
-                       p.Topic,
-                       p.Topic.Manga,
-                       p.Replies
-                   }).ToListAsync();
-
-            ForumReply Reply = new ForumReply();
-            try
-            {
-                Reply = new ForumReply
-                    (
-                    _context.Users.Where(x => x.id_User == request.id_Creator).FirstOrDefault(), 
-                    request.Reply,
-                    DateTime.Now.Date, 
-                    _context.Posts.Where(x => x.id_Post == request.id_Post).FirstOrDefault()
-                    ); 
-                await _context.AddAsync(Reply);
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException ex)
-            {
-                return new CreateReplyResponse()
-                {
-                    state = false,
-                    reply = null,
-                    Error = new List<string> { ex.Message }
-                };
-            }
-            return new CreateReplyResponse()
-            {
-                state = false,
-                reply = Reply,
-                Error = null
-            };
-        }
-
-        public async Task<CreateTopicResponse> CreateTopic(CreateTopicRequest request)
-        {
-            await (from p in _context.Posts
-                   select new
-                   {
-                       p.Creator,
-                       p.Topic,
-                       p.Topic.Manga,
-                       p.Replies
-                   }).ToListAsync();
-
-            ForumTopic Topic = new ForumTopic();
-            try
-            {
-                Topic = new ForumTopic
-                {
-                    Name = request.Name,
-                    Manga = await _context.Mangas.Where(x => x.id_Manga == request.id_Manga).FirstOrDefaultAsync()
-                };
-                   
-
-                    
-                await _context.AddAsync(Topic);
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException ex)
-            {
-                return new CreateTopicResponse()
-                {
-                    state = false,
-                    topic = null,
-                    Error = new List<string> { ex.Message }
-                };
-            }
-            return new CreateTopicResponse()
-            {
-                state = false,
-                topic = Topic,
-                Error = null
-            };
-        }
-
-
-
+       
 
         public async Task<IEnumerable<Manga>> GetAllMangas()
         {
@@ -341,8 +212,144 @@ namespace API_Manga.Models.Services
             };
         }
 
+        public async Task<CreatePostResponse> CreatePost(CreatePostRequest request)
+        {
+            await (from p in _context.Posts
+                   select new
+                   {
+                       p.Creator,
+                       p.Topic,
+                       p.Topic.Manga,
+                       p.Replies
+                   }).ToListAsync();
+
+            ForumPost Post = new ForumPost();
+            try
+            {
+                Post = new ForumPost(_context.Users.Where(x => x.id_User == request.id_Creator).FirstOrDefault(),
+             _context.Posts.Where(x => x.Topic.id_Topic == request.id_Topic).FirstOrDefault().Topic,
+             new List<ForumReply> {
+                    new ForumReply
+                    (
+                        _context.Posts.Where(x => x.Creator.id_User == request.id_Creator).FirstOrDefault().Creator,
+                        request.Message,
+                        DateTime.Now.Date
+                        )
+
+             }); ;
+                await _context.AddAsync(Post);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                return new CreatePostResponse()
+                {
+                    state = false,
+                    post = null,
+                    Error = new List<string> { ex.Message }
+                };
+            }
+            return new CreatePostResponse()
+            {
+                state = false,
+                post = Post,
+                Error = null
+            };
+        }
+
+        public async Task<CreateReplyResponse> CreateReply(CreateReplyRequest request)
+        {
+            await (from p in _context.Posts
+                   select new
+                   {
+                       p.Creator,
+                       p.Topic,
+                       p.Topic.Manga,
+                       p.Replies
+                   }).ToListAsync();
+
+            ForumReply Reply = new ForumReply();
+            try
+            {
+                Reply = new ForumReply
+                    (
+                    _context.Users.Where(x => x.id_User == request.id_Creator).FirstOrDefault(),
+                    request.Reply,
+                    DateTime.Now.Date,
+                    _context.Posts.Where(x => x.id_Post == request.id_Post).FirstOrDefault()
+                    );
+                await _context.AddAsync(Reply);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                return new CreateReplyResponse()
+                {
+                    state = false,
+                    reply = null,
+                    Error = new List<string> { ex.Message }
+                };
+            }
+            return new CreateReplyResponse()
+            {
+                state = false,
+                reply = Reply,
+                Error = null
+            };
+        }
+
+        public async Task<CreateTopicResponse> CreateTopic(CreateTopicRequest request)
+        {
+            await (from p in _context.Posts
+                   select new
+                   {
+                       p.Creator,
+                       p.Topic,
+                       p.Topic.Manga,
+                       p.Replies
+                   }).ToListAsync();
+
+            ForumTopic Topic = new ForumTopic();
+            try
+            {
+                Topic = new ForumTopic
+                {
+                    Name = request.Name,
+                    Manga = await _context.Mangas.Where(x => x.id_Manga == request.id_Manga).FirstOrDefaultAsync()
+                };
+
+
+
+                await _context.AddAsync(Topic);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                return new CreateTopicResponse()
+                {
+                    state = false,
+                    topic = null,
+                    Error = new List<string> { ex.Message }
+                };
+            }
+            return new CreateTopicResponse()
+            {
+                state = false,
+                topic = Topic,
+                Error = null
+            };
+        }
+
         public async Task<DeleteReplyResponse> DeleteReply(DeleteReplyRequest request)
         {
+            await (from p in _context.Replies
+                   select new
+                   {
+                       p.id_Reply,
+                       p.Post,
+                       p.Creator,
+                       p.Post.id_Post,
+                   }).ToListAsync();
             ForumReply reply = await _context.Replies.FirstOrDefaultAsync(reply => reply.id_Reply == request.id_Reply);
             if (reply == null)
             {
@@ -377,6 +384,16 @@ namespace API_Manga.Models.Services
 
         public async Task<DeleteTopicResponse> DeleteTopic(DeleteTopicRequest request)
         {
+            await (from p in _context.Posts
+                   select new
+                   {
+                       p.Creator,
+                       p.Topic,
+                       p.Topic.Manga,
+                       p.Topic.Name,
+                       p.Topic.id_Topic,
+                       p.Replies
+                   }).ToListAsync();
             ForumTopic topic = await _context.Topics.FirstOrDefaultAsync(topic => topic.id_Topic == request.id_Topic);
             if (topic == null)
             {
@@ -389,6 +406,13 @@ namespace API_Manga.Models.Services
             }
             try
             {
+                foreach (ForumPost post in _context.Posts)
+                {
+                    if(post.Topic.id_Topic == topic.id_Topic)
+                    {
+                        _context.Posts.Remove(post);
+                    }
+                }
                 _context.Topics.Remove(topic);
                 await _context.SaveChangesAsync();
             }
@@ -411,6 +435,15 @@ namespace API_Manga.Models.Services
 
         public async Task<DeletePostResponse> DeletePost(DeletePostRequest request)
         {
+            await (from p in _context.Posts
+                   select new
+                   {
+                       p.id_Post,
+                       p.Creator,
+                       p.Topic,
+                       p.Topic.Manga,
+                       p.Replies
+                   }).ToListAsync();
             ForumPost post = await _context.Posts.FirstOrDefaultAsync(post => post.id_Post == request.id_Post);
             if (post == null)
             {
@@ -423,6 +456,11 @@ namespace API_Manga.Models.Services
             }
             try
             {
+                //ON CASCADE
+                foreach (ForumReply reply in post.Replies)
+                {
+                    _context.Replies.Remove(reply);
+                }
                 _context.Posts.Remove(post);
                 await _context.SaveChangesAsync();
             }
@@ -443,5 +481,95 @@ namespace API_Manga.Models.Services
             };
         }
 
+        public async Task<CreateTopicResponse> ModTopic(ModTopicRequest request)
+        {
+            await (from p in _context.Posts
+                   select new
+                   {
+                       p.Creator,
+                       p.Topic,
+                       p.Topic.Manga,
+                       p.Replies
+                   }).ToListAsync();
+
+
+            ForumTopic Topic = await _context.Topics.FirstOrDefaultAsync(topic => topic.id_Topic == request.id_Topic);
+            if (Topic == null)
+            {
+                return new CreateTopicResponse()
+                {
+                    state = true,
+                    topic = null,
+                    Error = new List<string> { "Not Found"}
+                };
+            }
+            try
+            {
+                Topic.Name = request.Name;
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                return new CreateTopicResponse()
+                {
+                    state = false,
+                    topic = null,
+                    Error = new List<string> { ex.Message }
+                };
+            }
+            return new CreateTopicResponse()
+            {
+                state = false,
+                topic = Topic,
+                Error = null
+            };
+
+        }
+
+        public async Task<CreateReplyResponse> ModReply(ModReplyRequest request)
+        {
+
+            await (from m in _context.Replies
+                   select new
+                   {
+                       m.id_Reply,
+                       m.ReplyDate,
+                       m.Creator,
+                       m.Reply,
+                       m.Post.id_Post
+                   }).ToListAsync();
+
+            ForumReply Reply = await _context.Replies.FirstOrDefaultAsync(reply => reply.id_Reply == request.id_Reply);
+            if (Reply == null)
+            {
+                return new CreateReplyResponse()
+                {
+                    state = false,
+                    reply = null,
+                    Error = new List<string> { "Not Found" }
+                };
+            }
+            try
+            {
+                Reply.Reply = request.Reply;
+                Reply.ReplyDate = DateTime.Now.Date;
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                return new CreateReplyResponse()
+                {
+                    state = false,
+                    reply = null,
+                    Error = new List<string> { ex.Message }
+                };
+            }
+            return new CreateReplyResponse()
+            {
+                state = true,
+                reply = Reply,
+                Error = null
+            };
+        }
     }
 }

@@ -80,25 +80,61 @@ namespace API_Manga.Controllers
         #region POST Methods
         //POST api/<Manga>
         [HttpPost("CreatePost")]
-        public Task<CreatePostResponse> CreatePost([FromBody] CreatePostRequest post)
+        public Task<CreatePostResponse> CreatePost([FromBody] CreatePostRequest request)
         {
-            return _forumService.CreatePost(post);
+            return _forumService.CreatePost(request);
         }
         [HttpPost("CreateReply")]
 
-        public Task<CreateReplyResponse> CreateReply([FromBody] CreateReplyRequest post)
+        public Task<CreateReplyResponse> CreateReply([FromBody] CreateReplyRequest request)
         {
-            return _forumService.CreateReply(post);
+            return _forumService.CreateReply(request);
         }
         [HttpPost("CreateTopic")]
 
-        public Task<CreateTopicResponse> CreateTopic([FromBody] CreateTopicRequest post)
+        public Task<CreateTopicResponse> CreateTopic([FromBody] CreateTopicRequest request)
         {
-            return _forumService.CreateTopic(post);
+            return _forumService.CreateTopic(request);
 
         }
         #endregion
 
+        #region MOD Methods
+   
+        [HttpPut("ModReply")]
+
+        public Task<CreateReplyResponse> ModReply([FromBody] ModReplyRequest request)
+        {
+            return _forumService.ModReply(request);
+        }
+        [HttpPut("ModTopic")]
+
+        public Task<CreateTopicResponse> ModTopic([FromBody] ModTopicRequest request)
+        {
+            return _forumService.ModTopic(request);
+
+        }
+        #endregion
+        #region DELETE Methods
+        [HttpDelete("DeletePost")]
+        public Task<DeletePostResponse> DeletePost([FromBody] DeletePostRequest request)
+        {
+            return _forumService.DeletePost(request);
+        }
+        [HttpDelete("DeleteReply")]
+
+        public Task<DeleteReplyResponse> DeleteReply([FromBody] DeleteReplyRequest request)
+        {
+            return _forumService.DeleteReply(request);
+        }
+        [HttpDelete("DeleteTopic")]
+
+        public Task<DeleteTopicResponse> DeleteTopic([FromBody] DeleteTopicRequest request)
+        {
+            return _forumService.DeleteTopic(request);
+
+        }
+        #endregion
         #endregion
 
     }
