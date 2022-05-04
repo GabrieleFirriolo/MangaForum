@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MangaForum.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using System;
@@ -16,8 +17,8 @@ namespace MangaForum.Pages
         {
             _logger = logger;
         }
-
-        public void OnGet()
+        
+        public async Task<IActionResult> OnGet()
         {
 
         }

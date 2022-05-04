@@ -341,19 +341,106 @@ namespace API_Manga.Models.Services
             };
         }
 
-        public Task<DeleteReplyResponse> DeleteReply(DeleteReplyRequest request)
+        public async Task<DeleteReplyResponse> DeleteReply(DeleteReplyRequest request)
         {
-            throw new NotImplementedException();
+            ForumReply reply = await _context.Replies.FirstOrDefaultAsync(reply => reply.id_Reply == request.id_Reply);
+            if (reply == null)
+            {
+                return new DeleteReplyResponse()
+                {
+                    state = false,
+                    deleted_reply = null,
+                    Error = new List<string>() { "Not Found" }
+                };
+            }
+            try
+            {
+                _context.Replies.Remove(reply);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                return new DeleteReplyResponse()
+                {
+                    state = false,
+                    deleted_reply = null,
+                    Error = new List<string> { ex.Message }
+                };
+            }
+            return new DeleteReplyResponse()
+            {
+                state = true,
+                deleted_reply = reply,
+                Error = null
+            };
         }
 
-        public Task<DeleteTopicResponse> DeleteTopic(DeleteTopicRequest request)
+        public async Task<DeleteTopicResponse> DeleteTopic(DeleteTopicRequest request)
         {
-            throw new NotImplementedException();
+            ForumTopic topic = await _context.Topics.FirstOrDefaultAsync(topic => topic.id_Topic == request.id_Topic);
+            if (topic == null)
+            {
+                return new DeleteTopicResponse()
+                {
+                    state = false,
+                    deleted_topic = null,
+                    Error = new List<string>() { "Not Found" }
+                };
+            }
+            try
+            {
+                _context.Topics.Remove(topic);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                return new DeleteTopicResponse()
+                {
+                    state = false,
+                    deleted_topic = null,
+                    Error = new List<string> { ex.Message }
+                };
+            }
+            return new DeleteTopicResponse()
+            {
+                state = true,
+                deleted_topic = topic,
+                Error = null
+            };
         }
 
-        public Task<DeletePostResponse> DeletePost(DeletePostRequest request)
+        public async Task<DeletePostResponse> DeletePost(DeletePostRequest request)
         {
-            throw new NotImplementedException();
+            ForumPost post = await _context.Posts.FirstOrDefaultAsync(post => post.id_Post == request.id_Post);
+            if (post == null)
+            {
+                return new DeletePostResponse()
+                {
+                    state = false,
+                    deleted_post = null,
+                    Error = new List<string>() { "Not Found" }
+                };
+            }
+            try
+            {
+                _context.Posts.Remove(post);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                return new DeletePostResponse()
+                {
+                    state = false,
+                    deleted_post = null,
+                    Error = new List<string> { ex.Message }
+                };
+            }
+            return new DeletePostResponse()
+            {
+                state = true,
+                deleted_post = post,
+                Error = null
+            };
         }
 
     }

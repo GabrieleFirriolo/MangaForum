@@ -9,10 +9,7 @@ namespace API_Manga.Models.Utilities.Requests
     public class DeleteTopicRequest
     {
         [Required]
-        [EmailAddress]
-        public string Email { get; set; }
-        [Required]
-        public string Password { get; set; }
+        public int id_Topic { get; set; }
 
     }
 }
