@@ -49,6 +49,13 @@ namespace API_Manga.Controllers
         #region Forum Methods
 
         #region GET Methods
+        [HttpGet("getalltopics")]
+
+        public Task<IEnumerable<ForumTopic>> GetAllTopics()
+        {
+            return _forumService.GetAllTopics();
+
+        }
 
         [HttpGet("topic/byname={name}")]
 

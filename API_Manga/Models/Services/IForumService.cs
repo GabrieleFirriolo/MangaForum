@@ -9,7 +9,9 @@ namespace API_Manga.Models.Services
 {
     public interface IForumService
     {
-        public  Task<IEnumerable<Manga>> GetAllMangas();
+        public Task<IEnumerable<ForumTopic>> GetAllTopics();
+
+        public Task<IEnumerable<Manga>> GetAllMangas();
         public  Task<GetMangaByNameResponse> GetMangaByName(string name);
         public  Task<GetMangaByIdResponse> GetMangaById(int id);
         public  Task<PostResponse> GetPostById(int id);

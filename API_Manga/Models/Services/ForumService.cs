@@ -17,7 +17,18 @@ namespace API_Manga.Models.Services
             _context = context;
         }
 
-       
+        public async Task<IEnumerable<ForumTopic>> GetAllTopics()
+        {
+            await (from p in _context.Posts
+                   select new
+                   {
+                       p.Creator,
+                       p.Topic,
+                       p.Topic.Manga,
+                       p.Replies
+                   }).ToListAsync();
+            return await _context.Topics.ToListAsync();
+        }
 
         public async Task<IEnumerable<Manga>> GetAllMangas()
         {
@@ -571,5 +582,7 @@ namespace API_Manga.Models.Services
                 Error = null
             };
         }
+
+
     }
 }
