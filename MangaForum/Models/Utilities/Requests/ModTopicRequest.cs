@@ -4,14 +4,15 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MangaForum.Models
+namespace MangaForum.Models.Utilities.Requests
 {
-    public class ForumTopic
+    public class ModTopicRequest
     {
+        [Required]
         public int id_Topic { get; set; }
         [Required]
         public string Name { get; set; }
-        [Required]
-        public Manga Manga { get; set; }
+
+
     }
 }

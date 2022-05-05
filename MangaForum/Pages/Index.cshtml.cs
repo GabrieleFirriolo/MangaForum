@@ -1,4 +1,5 @@
-﻿using MangaForum.Models;
+﻿using MangaForum.Data;
+using MangaForum.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
@@ -11,15 +12,33 @@ namespace MangaForum.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
-
-        public IndexModel(ILogger<IndexModel> logger)
+        public readonly MangaIdentityDbContext _context;
+        public IndexModel(MangaIdentityDbContext context)
         {
-            _logger = logger;
+            this._context = context;
         }
-        
+
+        [BindProperty]
+        public List<ForumPost> ElePosts { get; set; }
+        [BindProperty]
+        public int PostsInTopic { get; set; }
+
+        [BindProperty]
+        public List<ForumTopic> EleTopics { get; set; }
+
         public async Task<IActionResult> OnGet()
         {
+            try
+            {
+                EleTopics = new List<ForumTopic>();
+                EleTopics = APICaller.GetAllTopics().Result;
+                
+            }
+            catch (Exception ex)
+            {
+                return RedirectToPage("/Error");
+
+            }
             return Page();
         }
     }

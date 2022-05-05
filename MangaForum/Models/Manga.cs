@@ -7,6 +7,7 @@ namespace MangaForum.Models
 {
     public class Manga
     {
+        public int id_Manga { get; set; }
         [Required]
         public string Title { get; set; }
         [Required]

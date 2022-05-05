@@ -21,6 +21,7 @@ namespace API_Manga.Models.Services
         public  Task<PostResponse> GetPostsOfUser(int id);
         public  Task<PostResponse> GetPostsOfTopic(int id);
         public  Task<ReplyResponse> GetRepliesOfUser(int id);
+        public Task<ReplyResponse> GetRepliesOfTopic(int id);
 
 
         public  Task<CreatePostResponse> CreatePost(CreatePostRequest request);

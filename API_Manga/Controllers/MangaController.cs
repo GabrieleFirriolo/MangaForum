@@ -63,6 +63,12 @@ namespace API_Manga.Controllers
         {
             return _forumService.GetTopicByName(name);
         }
+        [HttpGet("post/byid={id}")]
+
+        public Task<PostResponse> GetPostById(int id)
+        {
+            return _forumService.GetPostById(id);
+        }
 
         [HttpGet("userposts/byid={id}")]
 
@@ -83,7 +89,12 @@ namespace API_Manga.Controllers
             return _forumService.GetRepliesOfUser(id);
         }
         #endregion
+        [HttpGet("topicreplies/byid={id}")]
 
+        public Task<ReplyResponse> GetRepliesOfTopic(int id)
+        {
+            return _forumService.GetRepliesOfTopic(id);
+        }
         #region POST Methods
         //POST api/<Manga>
         [HttpPost("CreatePost")]

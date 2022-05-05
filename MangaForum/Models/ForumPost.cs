@@ -8,6 +8,7 @@ namespace MangaForum.Models
 {
     public class ForumPost
     {
+        public int id_Post { get; set; }
         public ForumUser Creator { get; set; }
         public ForumTopic Topic { get; set; }
     }

@@ -9,6 +9,7 @@ namespace MangaForum.Models
 {
     public class ForumReply
     {
+        public int id_Reply { get; set; }
         public ForumUser Creator { get; set; }
         public string Reply { get; set; }
         public DateTime ReplyDate { get; set; }

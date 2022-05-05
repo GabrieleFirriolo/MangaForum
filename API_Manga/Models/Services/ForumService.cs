@@ -106,6 +106,42 @@ namespace API_Manga.Models.Services
 
             };
         }
+        public async Task<ReplyResponse> GetRepliesOfTopic(int id)
+        {
+            await (from p in _context.Posts
+                   select new
+                   {
+                       p.Creator,
+                       p.Topic,
+                       p.Topic.Manga,
+                       p.Replies
+                   }).ToListAsync();
+            var Posts = await _context.Posts.Where(post => post.Topic.id_Topic == id).ToListAsync();
+            List<ForumReply> Replies = new List<ForumReply>();
+            foreach (var post in Posts)
+            {
+                if(post.Replies != null)
+                Replies.AddRange(post.Replies);
+            }
+            var count = Replies.Count();
+            if (Replies.Count() == 0)
+            {
+                return new ReplyResponse()
+                {
+                    state = false,
+                    replies = null,
+                    Error = new List<string>() { "Not Found" }
+                };
+            }
+            return new ReplyResponse()
+            {
+                state = true,
+                replies = Replies,
+                Error = null,
+
+            };
+        }
+
 
         public async Task<PostResponse> GetPostsOfUser(int id)
         {
