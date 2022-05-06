@@ -56,6 +56,13 @@ namespace API_Manga.Controllers
             return _forumService.GetAllTopics();
 
         }
+        [HttpGet("getallposts")]
+
+        public Task<IEnumerable<ForumPost>> GetAllPosts()
+        {
+            return _forumService.GetAllPosts();
+
+        }
 
         [HttpGet("topic/byname={name}")]
 

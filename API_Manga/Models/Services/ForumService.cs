@@ -29,6 +29,18 @@ namespace API_Manga.Models.Services
                    }).ToListAsync();
             return await _context.Topics.ToListAsync();
         }
+        public async Task<IEnumerable<ForumPost>> GetAllPosts()
+        {
+            await (from p in _context.Posts
+                   select new
+                   {
+                       p.Creator,
+                       p.Topic,
+                       p.Topic.Manga,
+                       p.Replies
+                   }).ToListAsync();
+            return await _context.Posts.ToListAsync();
+        }
 
         public async Task<IEnumerable<Manga>> GetAllMangas()
         {
@@ -141,6 +153,8 @@ namespace API_Manga.Models.Services
 
             };
         }
+
+       
 
 
         public async Task<PostResponse> GetPostsOfUser(int id)

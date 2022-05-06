@@ -11,5 +11,6 @@ namespace MangaForum.Models
         public int id_Post { get; set; }
         public ForumUser Creator { get; set; }
         public ForumTopic Topic { get; set; }
+        public List<ForumReply> Replies { get; set; }
     }
 }

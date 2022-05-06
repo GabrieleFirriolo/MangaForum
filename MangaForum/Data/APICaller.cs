@@ -54,6 +54,23 @@ namespace MangaForum.Data
             }
 
         }
+        public static async Task<List<ForumPost>> GetAllPosts()
+        {
+            HttpClient client = new HttpClient();
+            try
+            {
+                var result = await client.GetStringAsync(url + "api/Manga/getallposts");
+
+                List<ForumPost> lista = JsonConvert.DeserializeObject<List<ForumPost>>(result);
+
+                return lista;
+            }
+            catch
+            {
+                return null;
+            }
+
+        }
         public static async Task<Manga> GetMangaById(int id)
         {
             HttpClient client = new HttpClient();
