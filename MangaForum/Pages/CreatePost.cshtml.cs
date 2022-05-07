@@ -20,7 +20,22 @@ namespace MangaForum.Pages
         {
             this._context = context;
         }
-      
+        [BindProperty]
+        public List<ForumTopic> EleTopics { get; set; }
+        public async Task<IActionResult> OnGet()
+        {
+            try
+            {
+                EleTopics = APICaller.GetAllTopics().Result;
+
+            }
+            catch (Exception ex)
+            {
+                return RedirectToPage("/Error");
+
+            }
+            return Page();
+        }
 
     }
 }

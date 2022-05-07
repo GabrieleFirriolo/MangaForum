@@ -2,15 +2,20 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using SQLitePCL;
+using SQLite;
+using Microsoft.EntityFrameworkCore;
 
 namespace MangaForum.Areas
 {
     public class ForumUser : IdentityUser
     {
         [Key]
-        public int id_Creator { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int IdUser { get; set; }
         [Required]
         public string Nome { get; set; }
         [Required]
@@ -19,7 +24,7 @@ namespace MangaForum.Areas
         public DateTime DataDiNascita { get; set; }
         [Required]
         public string Nazione { get; set; }
-        
-        
+
+    
     }
 }

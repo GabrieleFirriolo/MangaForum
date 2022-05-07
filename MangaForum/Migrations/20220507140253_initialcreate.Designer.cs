@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MangaForum.Migrations
 {
     [DbContext(typeof(MangaIdentityDbContext))]
-    [Migration("20220507094523_initialcreate")]
+    [Migration("20220507140253_initialcreate")]
     partial class initialcreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -42,6 +42,10 @@ namespace MangaForum.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("IdUser")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("LockoutEnabled")
@@ -84,9 +88,6 @@ namespace MangaForum.Migrations
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("TEXT");
-
-                    b.Property<int>("id_Creator")
-                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 

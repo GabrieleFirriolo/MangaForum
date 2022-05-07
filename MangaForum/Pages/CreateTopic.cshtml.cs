@@ -26,31 +26,14 @@ namespace MangaForum.Pages
         [BindProperty]
         public ForumTopic Topic { get; set; }
         [BindProperty]
-        public ForumPost FirstPost {get;set;}
-        public async Task<IActionResult> OnGet()
-        {
-            try
-            {
-                EleTopics = APICaller.GetAllTopics().Result;
-
-            }
-            catch (Exception ex)
-            {
-                return RedirectToPage("/Error");
-
-            }
-            return Page();
-        }
-        public async Task<IActionResult> OnPost()
+        public string FirstPostMessage {get;set;}
+        public async Task<IActionResult> OnPostAsync()
         {
 
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-            var manga = APICaller.GetMangaByName(Topic.Manga.Title);
-            await APICaller.CreateTopic(new CreateTopicRequest { id_Manga = manga.Id,Name = Topic.Name});
-            await APICaller.CreatePost(new CreatePostRequest { id_Creator = APICaller.GetUserByEmail(User.Identity.Name).Result.user.id_Creator });
+
+            Manga manga = APICaller.GetMangaByName(Topic.Manga.Title).Result.FirstOrDefault();
+            await APICaller.CreateTopic(new CreateTopicRequest { id_Manga = manga.id_Manga,Name = Topic.Name});
+            await APICaller.CreatePost(new CreatePostRequest { id_Creator = APICaller.GetUserByEmail(User.Identity.Name).Result.user.IdUser,id_Topic = APICaller.GetTopicByName(Topic.Name).Result.topics.First().id_Topic,Message = FirstPostMessage  });
 
             return RedirectToPage("./Index");
         }

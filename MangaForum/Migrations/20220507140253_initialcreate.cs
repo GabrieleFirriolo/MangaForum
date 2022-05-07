@@ -26,7 +26,7 @@ namespace MangaForum.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "TEXT", nullable: false),
-                    id_Creator = table.Column<int>(type: "INTEGER", nullable: false),
+                    IdUser = table.Column<int>(type: "INTEGER", nullable: false),
                     Nome = table.Column<string>(type: "TEXT", nullable: false),
                     Cognome = table.Column<string>(type: "TEXT", nullable: false),
                     DataDiNascita = table.Column<DateTime>(type: "TEXT", nullable: false),
@@ -48,7 +48,7 @@ namespace MangaForum.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                    table.PrimaryKey("PK_AspNetUsers", x => x.IdUser);
                 });
 
             migrationBuilder.CreateTable(
