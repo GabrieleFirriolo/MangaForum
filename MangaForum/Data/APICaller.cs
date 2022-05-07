@@ -17,7 +17,9 @@ namespace MangaForum.Data
 {
     public class APICaller
     {
-        public static string url = "https://localhost:5001/";
+       // public static string url = "https://localhost:5001/";
+        public static string url = "https://localhost:44342/";
+        
 
         #region GET
         public static async Task<List<Manga>> GetAllMangas()
@@ -199,6 +201,24 @@ namespace MangaForum.Data
                 return null;
             }
         }
+
+        public static async Task<CreateUserResponse> GetUserByEmail(string email)
+        {
+            HttpClient client = new HttpClient();
+            try
+            {
+                var result = await client.GetStringAsync(url + $"api/Manga/user/byemail={email}");
+
+                CreateUserResponse response = JsonConvert.DeserializeObject<CreateUserResponse>(result);
+
+                return response;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         #endregion
 
         public static async Task<CreatePostResponse> CreatePost(CreatePostRequest request)
@@ -306,7 +326,41 @@ namespace MangaForum.Data
                 };
             }
         }
+        public static async Task<CreateUserResponse> CreateUser(CreateUserRequest request)
+        {
+            var httpWebRequest = (HttpWebRequest)WebRequest.Create(url + "api/Manga/CreateUser");
+            httpWebRequest.ContentType = "application/json";
+            httpWebRequest.Method = "POST";
+            try
+            {
+                using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                {
+                    string json = JsonConvert.SerializeObject(request);
 
+                    streamWriter.Write(json);
+                }
+
+                var httpResponse = (HttpWebResponse)await httpWebRequest.GetResponseAsync();
+                CreateUserResponse response;
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                {
+                    var result = streamReader.ReadToEnd();
+                    response = JsonConvert.DeserializeObject<CreateUserResponse>(result);
+                }
+                return response;
+            }
+            catch (Exception ex)
+            {
+                return new CreateUserResponse()
+                {
+                    state = false,
+                    Error = new List<string>
+                    {
+                        ex.Message
+                    }
+                };
+            }
+        }
         public static async Task<CreateReplyResponse> ModReply(ModReplyRequest request)
         {
             var httpWebRequest = (HttpWebRequest)WebRequest.Create(url + "api/Manga/ModReply");

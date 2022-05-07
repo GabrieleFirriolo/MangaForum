@@ -95,13 +95,20 @@ namespace API_Manga.Controllers
         {
             return _forumService.GetRepliesOfUser(id);
         }
-        #endregion
         [HttpGet("topicreplies/byid={id}")]
 
         public Task<ReplyResponse> GetRepliesOfTopic(int id)
         {
             return _forumService.GetRepliesOfTopic(id);
         }
+        [HttpGet("user/byemail={email}")]
+
+        public Task<CreateUserResponse> GetUserByEmail(string email)
+        {
+            return _forumService.GetUserByEmail(email);
+        }
+        #endregion
+
         #region POST Methods
         //POST api/<Manga>
         [HttpPost("CreatePost")]
@@ -122,10 +129,16 @@ namespace API_Manga.Controllers
             return _forumService.CreateTopic(request);
 
         }
+        [HttpPost("CreateUser")]
+        public Task<CreateUserResponse> CreateUser([FromBody] CreateUserRequest request)
+        {
+            return _forumService.CreateUser(request);
+        }
+
         #endregion
 
         #region MOD Methods
-   
+
         [HttpPut("ModReply")]
 
         public Task<CreateReplyResponse> ModReply([FromBody] ModReplyRequest request)
@@ -139,7 +152,15 @@ namespace API_Manga.Controllers
             return _forumService.ModTopic(request);
 
         }
+        [HttpPut("ModUser")]
+
+        public Task<CreateUserResponse> ModUser([FromBody] ModUserRequest request)
+        {
+            return _forumService.ModUser(request);
+
+        }
         #endregion
+
         #region DELETE Methods
         [HttpDelete("DeletePost")]
         public Task<DeletePostResponse> DeletePost([FromBody] DeletePostRequest request)

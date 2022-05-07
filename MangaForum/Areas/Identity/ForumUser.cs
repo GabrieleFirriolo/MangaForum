@@ -9,6 +9,8 @@ namespace MangaForum.Areas
 {
     public class ForumUser : IdentityUser
     {
+        [Key]
+        public int id_Creator { get; set; }
         [Required]
         public string Nome { get; set; }
         [Required]

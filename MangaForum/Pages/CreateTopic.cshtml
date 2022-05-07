@@ -32,7 +32,7 @@
               <form action="#" method="POST" class="u-clearfix u-form-spacing-13 u-form-vertical u-inner-form" source="custom" name="form" style="padding: 20px;">
                 <div class="u-form-group u-form-group-1">
                   <label for="text-2c8a" class="u-label u-label-1">Titolo</label>
-                  <input type="text" placeholder="Inserire il titolo per il topic ..." id="text-2c8a" name="text" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-radius-7 u-white" required="required">
+                  <input asp-for="Topic.Name"type="text" placeholder="Inserire il titolo per il topic ..." id="text-2c8a" name="text" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-radius-7 u-white" required="required">
                 </div>
                 <div class="u-form-group u-form-group-2">
                   <label for="text-1682" class="u-label u-label-2">Descrizione</label>
@@ -40,7 +40,7 @@
                 </div>
                 <div class="u-form-group u-form-group-3">
                   <label for="text-39f8" class="u-label u-label-3">Manga</label>
-                  <input type="text" placeholder="Cerca un manga ..." id="text-39f8" name="text-1" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-radius-7 u-white" required="required">
+                  <input asp-for="Topic.Manga.Title"type="text" placeholder="Cerca un manga ..." id="text-39f8" name="text-1" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-radius-7 u-white" required="required">
                 </div>
                 <div class="u-form-group u-form-message">
                   <label for="message-ba0f" class="u-label u-label-4">Messaggio</label>

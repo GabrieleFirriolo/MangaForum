@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using MangaForum.Data;
+using MangaForum.Models;
+using MangaForum.Models.Utilities.Requests;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
@@ -12,15 +15,44 @@ namespace MangaForum.Pages
     [Authorize]
     public class CreateTopicModel : PageModel
     {
-        private readonly ILogger<CreateTopicModel> _logger;
-
-        public CreateTopicModel(ILogger<CreateTopicModel> logger)
+        public readonly MangaIdentityDbContext _context;
+        public CreateTopicModel(MangaIdentityDbContext context)
         {
-            _logger = logger;
+            this._context = context;
         }
 
-        public void OnGet()
+        [BindProperty]
+        public List<ForumTopic> EleTopics { get; set; }
+        [BindProperty]
+        public ForumTopic Topic { get; set; }
+        [BindProperty]
+        public ForumPost FirstPost {get;set;}
+        public async Task<IActionResult> OnGet()
         {
+            try
+            {
+                EleTopics = APICaller.GetAllTopics().Result;
+
+            }
+            catch (Exception ex)
+            {
+                return RedirectToPage("/Error");
+
+            }
+            return Page();
+        }
+        public async Task<IActionResult> OnPost()
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+            var manga = APICaller.GetMangaByName(Topic.Manga.Title);
+            await APICaller.CreateTopic(new CreateTopicRequest { id_Manga = manga.Id,Name = Topic.Name});
+            await APICaller.CreatePost(new CreatePostRequest { id_Creator = APICaller.GetUserByEmail(User.Identity.Name).Result.user.id_Creator });
+
+            return RedirectToPage("./Index");
         }
     }
 }

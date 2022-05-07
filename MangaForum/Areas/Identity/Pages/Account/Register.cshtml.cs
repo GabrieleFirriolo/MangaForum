@@ -14,6 +14,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using MangaForum.Data;
+using MangaForum.Models.Utilities.Requests;
 
 namespace MangaForum.Areas.Identity.Pages.Account
 {
@@ -93,7 +95,7 @@ namespace MangaForum.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
-
+                    await APICaller.CreateUser(new CreateUserRequest { Email = Input.Email, Nome = Input.Nome, Cognome = Input.Cognome, DataDiNascita = Input.DataDiNascita, Nazione = Input.Nazione});
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(

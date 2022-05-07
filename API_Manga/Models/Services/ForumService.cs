@@ -132,8 +132,8 @@ namespace API_Manga.Models.Services
             List<ForumReply> Replies = new List<ForumReply>();
             foreach (var post in Posts)
             {
-                if(post.Replies != null)
-                Replies.AddRange(post.Replies);
+                if (post.Replies != null)
+                    Replies.AddRange(post.Replies);
             }
             var count = Replies.Count();
             if (Replies.Count() == 0)
@@ -154,19 +154,19 @@ namespace API_Manga.Models.Services
             };
         }
 
-       
+
 
 
         public async Task<PostResponse> GetPostsOfUser(int id)
         {
             var Posts = await _context.Posts.Where(x => x.Creator.id_User == id).ToListAsync();
             await (from p in _context.Posts select new
-                          {
-                             p.Creator,
-                             p.Topic,
-                             p.Topic.Manga,
-                             p.Replies
-                          }).ToListAsync();
+            {
+                p.Creator,
+                p.Topic,
+                p.Topic.Manga,
+                p.Replies
+            }).ToListAsync();
             if (Posts.Count() == 0)
             {
                 return new PostResponse()
@@ -184,7 +184,7 @@ namespace API_Manga.Models.Services
 
             };
         }
-    
+
         public async Task<ReplyResponse> GetRepliesOfUser(int id)
         {
             var Replies = await _context.Replies.Where(reply => reply.Creator.id_User == id).ToListAsync();
@@ -214,7 +214,27 @@ namespace API_Manga.Models.Services
 
             };
         }
+        public async Task<CreateUserResponse> GetUserByEmail(string email)
+        {
+            ForumUser User = await _context.Users.Where(user => user.Email == email).FirstOrDefaultAsync();
+      
+            if (User == null)
+            {
+                return new CreateUserResponse()
+                {
+                    state = false,
+                    user = null,
+                    Error = new List<string>() { "Not Found" }
+                };
+            }
+            return new CreateUserResponse()
+            {
+                state = true,
+                user = User,
+                Error = null,
 
+            };
+        }
         public async Task<PostResponse> GetPostById(int id)
         {
             var Posts = await _context.Posts.Where(post => post.id_Post == id).ToListAsync();
@@ -312,7 +332,7 @@ namespace API_Manga.Models.Services
             }
             return new CreatePostResponse()
             {
-                state = false,
+                state = true,
                 post = Post,
                 Error = null
             };
@@ -353,7 +373,7 @@ namespace API_Manga.Models.Services
             }
             return new CreateReplyResponse()
             {
-                state = false,
+                state = true,
                 reply = Reply,
                 Error = null
             };
@@ -395,10 +415,100 @@ namespace API_Manga.Models.Services
             }
             return new CreateTopicResponse()
             {
-                state = false,
+                state = true,
                 topic = Topic,
                 Error = null
             };
+        }
+        public async Task<CreateUserResponse> CreateUser(CreateUserRequest request)
+        {
+            await (from p in _context.Posts
+                   select new
+                   {
+                       p.Creator,
+                       p.Topic,
+                       p.Topic.Manga,
+                       p.Replies
+                   }).ToListAsync();
+
+            ForumUser User = new ForumUser();
+            try
+            {
+                User = new ForumUser
+                {
+                    Nome = request.Nome,
+                    Cognome = request.Cognome,
+                    DataDiNascita = request.DataDiNascita,
+                    Nazione = request.Nazione,
+                    Email = request.Email
+                };
+
+                await _context.AddAsync(User);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                return new CreateUserResponse()
+                {
+                    state = false,
+                    user = null,
+                    Error = new List<string> { ex.Message }
+                };
+            }
+            return new CreateUserResponse()
+            {
+                state = true,
+                user = User,
+                Error = null
+            };
+        }
+        public async Task<CreateUserResponse> ModUser(ModUserRequest request)
+        {
+            await (from p in _context.Posts
+                   select new
+                   {
+                       p.Creator,
+                       p.Topic,
+                       p.Topic.Manga,
+                       p.Replies
+                   }).ToListAsync();
+
+
+            ForumUser User = await _context.Users.FirstOrDefaultAsync(user => user.id_User == request.id_User);
+            if (User == null)
+            {
+                return new CreateUserResponse()
+                {
+                    state = true,
+                    user = null,
+                    Error = new List<string> { "Not Found" }
+                };
+            }
+            try
+            {
+                User.Nome = request.Nome;
+                User.Cognome = request.Cognome;
+                User.DataDiNascita = request.DataDiNascita;
+                User.Nazione = request.Nazione;
+                User.Email = request.Email;  
+                    await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                return new CreateUserResponse()
+                {
+                    state = false,
+                    user = null,
+                    Error = new List<string> { ex.Message }
+                };
+            }
+            return new CreateUserResponse()
+            {
+                state = true,
+                user = User,
+                Error = null
+            };
+
         }
 
         public async Task<DeleteReplyResponse> DeleteReply(DeleteReplyRequest request)
@@ -580,7 +690,7 @@ namespace API_Manga.Models.Services
             }
             return new CreateTopicResponse()
             {
-                state = false,
+                state = true,
                 topic = Topic,
                 Error = null
             };

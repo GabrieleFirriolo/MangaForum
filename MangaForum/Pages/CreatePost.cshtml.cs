@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using MangaForum.Data;
+using MangaForum.Models;
+using MangaForum.Models.Utilities.Requests;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
@@ -12,15 +15,13 @@ namespace MangaForum.Pages
     [Authorize]
     public class CreatePostModel : PageModel
     {
-        private readonly ILogger<CreatePostModel> _logger;
-
-        public CreatePostModel(ILogger<CreatePostModel> logger)
+        public readonly MangaIdentityDbContext _context;
+        public CreatePostModel(MangaIdentityDbContext context)
         {
-            _logger = logger;
+            this._context = context;
         }
+      
 
-        public void OnGet()
-        {
-        }
     }
 }
+
