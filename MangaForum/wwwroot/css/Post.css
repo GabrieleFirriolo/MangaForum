@@ -91,11 +91,11 @@
   margin: -1px auto 0 53px;
 }
 
-.u-section-1 .u-image-2 {
-  width: 132px;
-  height: 170px;
-  margin: -238px auto 60px 189px;
-}
+    .u-section-1 .u-image-2 {
+        width: 132px;
+        height: 170px;
+        margin: -10px 20px -3px 10px;
+    }
 
 @media (max-width: 1199px) {
   .u-section-1 .u-sheet-1 {

@@ -18650,14 +18650,20 @@ a.pswp__share--download:hover {
 }
 .u-table table {
   width: 100%;
-  border-collapse: collapse;
-  text-align: left;
+    border-collapse: collapse;
+text-align: left;
 }
 .u-table th,
 .u-table td {
   padding: 10px;
   font-weight: inherit;
   position: inherit;
+}
+.my-table tr td {
+    padding: 10px;
+    font-weight: inherit;
+    position: inherit;
+    height : auto;
 }
 .u-table th:empty:before,
 .u-table td:empty:before {
