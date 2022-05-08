@@ -107,6 +107,12 @@ namespace API_Manga.Controllers
         {
             return _forumService.GetUserByEmail(email);
         }
+        [HttpGet("topic/byid={id}")]
+
+        public Task<CreateTopicResponse> GetTopicById(int id)
+        {
+            return _forumService.GetTopicById(id);
+        }
         #endregion
 
         #region POST Methods

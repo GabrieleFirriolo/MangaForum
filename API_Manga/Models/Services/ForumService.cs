@@ -216,6 +216,7 @@ namespace API_Manga.Models.Services
         }
         public async Task<CreateUserResponse> GetUserByEmail(string email)
         {
+            email = email.Replace("%40", "@");
             ForumUser User = await _context.Users.Where(user => user.Email == email).FirstOrDefaultAsync();
       
             if (User == null)
@@ -292,6 +293,33 @@ namespace API_Manga.Models.Services
 
             };
         }
+        public async Task<CreateTopicResponse> GetTopicById(int id)
+        {
+            var Topics = await _context.Topics.Where(topic => topic.id_Topic == id).FirstOrDefaultAsync();
+            await (from p in _context.Topics
+                   select new
+                   {
+                       p.id_Topic,
+                       p.Name,
+                       p.Manga
+                   }).ToListAsync();
+            if (Topics == null)
+            {
+                return new CreateTopicResponse()
+                {
+                    state = false,
+                    topic = null,
+                    Error = new List<string>() { "Not Found" }
+                };
+            }
+            return new CreateTopicResponse()
+            {
+                state = true,
+                topic = Topics,
+                Error = null,
+
+            };
+        }
 
         public async Task<CreatePostResponse> CreatePost(CreatePostRequest request)
         {
@@ -307,17 +335,15 @@ namespace API_Manga.Models.Services
             ForumPost Post = new ForumPost();
             try
             {
-                Post = new ForumPost(_context.Users.Where(x => x.id_User == request.id_Creator).FirstOrDefault(),
-             _context.Posts.Where(x => x.Topic.id_Topic == request.id_Topic).FirstOrDefault().Topic,
-             new List<ForumReply> {
+                var creator = _context.Users.Where(x => x.id_User == request.id_Creator).FirstOrDefault();
+                var topic = _context.Topics.Where(x => x.id_Topic == request.id_Topic).FirstOrDefault();
+                Post = new ForumPost(creator,topic,
+                new List<ForumReply> {
                     new ForumReply
-                    (
-                        _context.Posts.Where(x => x.Creator.id_User == request.id_Creator).FirstOrDefault().Creator,
+                    (   creator,
                         request.Message,
                         DateTime.Now.Date
-                        )
-
-             }); ;
+                        )});
                 await _context.AddAsync(Post);
                 await _context.SaveChangesAsync();
             }

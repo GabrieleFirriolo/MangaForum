@@ -15,7 +15,7 @@ namespace MangaForum.Areas
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int IdUser { get; set; }
+        public int id_User { get; set; }
         [Required]
         public string Nome { get; set; }
         [Required]

@@ -89,14 +89,14 @@ namespace MangaForum.Data
                 return null;
             }
         }
-        public static async Task<List<Manga>> GetMangaByName(string name)
+        public static async Task<GetMangaByNameResponse> GetMangaByName(string name)
         {
             HttpClient client = new HttpClient();
             try
             {
                 var result = await client.GetStringAsync(url + $"api/Manga/manga/byname={name}");
 
-                List<Manga> response = JsonConvert.DeserializeObject<List<Manga>>(result);
+                GetMangaByNameResponse response = JsonConvert.DeserializeObject<GetMangaByNameResponse > (result);
 
                 return response;
             }
@@ -113,6 +113,22 @@ namespace MangaForum.Data
                 var result = await client.GetStringAsync(url + $"api/Manga/topic/byname={name}");
 
                 TopicResponse response = JsonConvert.DeserializeObject<TopicResponse>(result);
+
+                return response;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        public static async Task<CreateTopicResponse> GetTopicById(int id)
+        {
+            HttpClient client = new HttpClient();
+            try
+            {
+                var result = await client.GetStringAsync(url + $"api/Manga/topic/byid={id}");
+
+                CreateTopicResponse response = JsonConvert.DeserializeObject<CreateTopicResponse>(result);
 
                 return response;
             }
@@ -201,7 +217,6 @@ namespace MangaForum.Data
                 return null;
             }
         }
-
         public static async Task<CreateUserResponse> GetUserByEmail(string email)
         {
             HttpClient client = new HttpClient();
@@ -431,7 +446,6 @@ namespace MangaForum.Data
                 };
             }
         }
-
         public static async Task<DeletePostResponse> DeletePost(DeletePostRequest request)
         {
             var httpWebRequest = (HttpWebRequest)WebRequest.Create(url + $"api/Manga/DeletePost");
@@ -537,5 +551,6 @@ namespace MangaForum.Data
                 };
             }
         }
+
     }
 }

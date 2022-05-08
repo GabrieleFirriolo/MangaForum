@@ -51,7 +51,7 @@
                     {
                         <tr style="height: 51px;">
                             <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">
-                                @item.Topic.Name<br />
+                                <a asp-page="./Posts" asp-route-id="@item.id_Post">@item.Topic.Name</a><br />
                                 Da : @item.Creator.Nome<br />
                                 Risposte : @item.Replies.Count<br />
                             </td>

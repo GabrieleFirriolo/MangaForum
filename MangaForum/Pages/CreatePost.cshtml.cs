@@ -22,6 +22,12 @@ namespace MangaForum.Pages
         }
         [BindProperty]
         public List<ForumTopic> EleTopics { get; set; }
+        [BindProperty]
+        public ForumTopic Topic { get; set; }
+        [BindProperty]
+        public string FirstMessage { get; set; }
+
+
         public async Task<IActionResult> OnGet()
         {
             try
@@ -35,6 +41,14 @@ namespace MangaForum.Pages
 
             }
             return Page();
+        }
+        public async Task<IActionResult> OnPostAsync()
+        {
+            var user = _context.Users.Where(x => x.Email == User.Identity.Name).First();
+            await APICaller.CreatePost(new CreatePostRequest {id_Creator = user.id_User, id_Topic = Topic.id_Topic, Message = FirstMessage});
+
+
+            return RedirectToPage("/Index");
         }
 
     }

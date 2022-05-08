@@ -1,6 +1,7 @@
 ﻿@page
 @model PostsModel
 @{
+    int Num = 0;
 }
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,12 +27,14 @@
   <section class="u-clearfix u-image u-shading u-section-1" id="sec-77ab" data-image-width="1000" data-image-height="1000">
       <div class="u-clearfix u-sheet u-sheet-1">
         <a asp-page="/CreateReply"class="u-border-none u-btn u-btn-round u-button-style u-hover-palette-1-light-2 u-palette-1-light-1 u-radius-13 u-btn-1">Rispondi</a>
+       
         <div class="u-align-left u-border-1 u-border-black u-container-style u-expanded-width u-grey-40 u-group u-group-1">
           <div class="u-container-layout u-container-layout-1">
             <h1 class="u-text u-text-black u-text-1">&gt; [Topic]</h1>
           </div>
         </div>
-        <div class="u-expanded-width u-table u-table-responsive u-table-1">
+        @foreach(var item in Model.post.Replies)
+        {<div class="u-expanded-width u-table u-table-responsive u-table-1">
           <table class="u-table-entity">
             <colgroup>
               <col width="16.1%">
@@ -39,8 +42,8 @@
             </colgroup>
             <thead class="u-grey-50 u-table-header u-text-black u-table-header-1">
               <tr style="height: 30px;">
-                <th class="u-align-center u-border-1 u-border-white u-grey-30 u-table-cell u-text-body-color u-table-cell-1">[Utente]</th>
-                <th class="u-border-1 u-border-white u-grey-30 u-table-cell u-text-black u-table-cell-2">Inviato il : dd/mm/yyyy, hh/mm</th>
+                <th class="u-align-center u-border-1 u-border-white u-grey-30 u-table-cell u-text-body-color u-table-cell-1">@item.Creator.Nome</th>
+                <th class="u-border-1 u-border-white u-grey-30 u-table-cell u-text-black u-table-cell-2">Inviato il : @item.ReplyDate</th>
               </tr>
             </thead>
             <tbody class="u-palette-1-light-3 u-table-body u-table-body-1">
@@ -53,7 +56,7 @@
                   <br>
                   <br>
                   <br>
-                  <br>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis in purus lacus. Nam sed ultrices mauris. Proin sit amet orci vitae mi varius tincidunt et at elit. Fusce at ullamcorper felis. Nunc rutrum metus purus, non molestie tellus elementum vehicula. Praesent urna orci, ultricies sit amet ullamcorper in, dictum ut sapien. Proin imperdiet leo sem, ac aliquam turpis mattis sed. Maecenas eget tortor eget neque sodales rutrum non dignissim quam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque quis leo ac turpis tempus dapibus. Vestibulum ac est ac turpis venenatis fringilla sed eget lacus. In id massa urna. Fusce hendrerit mattis mi, dignissim ultrices tellus elementum efficitur. Pellentesque volutpat erat vel faucibus gravida. Sed euismod venenatis odio, et bibendum sapien efficitur ut. Donec quis neque tempus, fermentum lectus ut, accumsan sem.
+                  <br>@item.Reply
                 </td>
               </tr>
               <tr style="height: 25px;">
@@ -64,17 +67,20 @@
           </table>
         </div>
         <p class="u-custom-font u-font-oswald u-text u-text-default u-text-2">
-          <font color="#111111">[Nickname]</font>
+          <font color="#111111">@item.Creator.Email</font>
         </p>
         <img class="u-image u-image-round u-radius-6 u-image-1" src="~/images/6c33038d942006f3d68e04d531d22baa2c55b7dfc4bed3c1907b948cabe38fad64495241f9df1997a0fb54c8c3d15bc6cbb556e76e0d5a53d0f3af_1280-12.jpg" alt="" data-image-width="1280" data-image-height="800">
         <p class="u-custom-font u-font-oswald u-text u-text-default u-text-3">
-          <span class="u-text-body-color">Messaggi : ____</span>
+              <span class="u-text-body-color">Messaggi :@APICaller.GetRepliesOfUser(item.Creator.id_User).Result.replies.Count</span>
           <span class="u-text-body-color"></span>
         </p>
         <p class="u-custom-font u-font-oswald u-text u-text-default u-text-4">
-          <span class="u-text-body-color">Nazione : ____</span>
+          <span class="u-text-body-color">Nazione : @item.Creator.Nazione</span>
           <span class="u-text-body-color"></span>
         </p>
-        <img class="u-image u-image-round u-radius-10 u-image-2" src="~/images/pngegg11-11.png" alt="" data-image-width="500" data-image-height="706">
+        Num = 0;
+        }
+<img class="u-image u-image-round u-radius-10 u-image-2" src="data:image/png;base64,@Model.post.Topic.Manga.Image" alt="" data-image-width="500" data-image-height="706">
+
       </div>
     </section>

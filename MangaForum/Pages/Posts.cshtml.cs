@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MangaForum.Data;
+using MangaForum.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using System;
@@ -10,15 +12,21 @@ namespace MangaForum.Pages
 {
     public class PostsModel : PageModel
     {
-        private readonly ILogger<PostsModel> _logger;
-
-        public PostsModel(ILogger<PostsModel> logger)
+        public readonly MangaIdentityDbContext _context;
+        public PostsModel(MangaIdentityDbContext context)
         {
-            _logger = logger;
+            _context = context;
         }
-
-        public void OnGet()
+        [BindProperty]
+        public ForumPost post { get; set; }
+        public async Task<IActionResult> OnGetAsync(int id)
         {
+            if(id==null)
+            {
+                return NotFound();
+            }
+            post = APICaller.GetPostById(id).Result.posts.First();
+            return Page();
         }
     }
 }
