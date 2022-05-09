@@ -34,23 +34,19 @@
                 <h1 class="u-text u-text-black u-text-1">&gt; @Model.post.Topic.Name</h1>
             </div>
         </div>
-        <div style="position:relative;height :500px;">
         @foreach (var item in Model.post.Replies)
-        {<div style="height:100%;float:left;width:100%">
+        {
+        @*<div style="border: 10px solid red; min-height: auto; width: 1000px">
             <div class="u-expanded-width u-table u-table-responsive u-table-1">
                 <table class="u-table-entity">
-                    <colgroup>
-                        <col width="16.1%">
-                        <col width="83.9%">
-                    </colgroup>
                     <thead class="u-grey-50 u-table-header u-text-black u-table-header-1">
-                        <tr style="height: 30px;">
-                            <th class="u-align-center u-border-1 u-border-white u-grey-30 u-table-cell u-text-body-color u-table-cell-1">@item.Creator.Nome</th>
-                            <th class="u-border-1 u-border-white u-grey-30 u-table-cell u-text-black u-table-cell-2">Inviato il : @item.ReplyDate</th>
+                        <tr>
+                            <th class="u-align-center u-border-1 u-border-white u-grey-30 u-table-cell u-text-body-color u-table-cell-1" style="width: 25%; background-color: teal;">@item.Creator.Nome</th>
+                            <th class="u-border-1 u-border-white u-grey-30 u-table-cell u-text-black u-table-cell-2" style="width: 75%; background-color: teal;">Inviato il : @item.ReplyDate</th>
                         </tr>
                     </thead>
                     <tbody class="u-palette-1-light-3 u-table-body u-table-body-1">
-                        <tr style="height: 406px;">
+                        <tr>
                             <td class="u-border-1 u-border-white u-table-cell"></td>
                             <td class="u-border-1 u-border-white u-table-cell u-table-valign-top">
                                 @if (!check)
@@ -92,11 +88,52 @@
                 <span class="u-text-body-color">Nazione : @item.Creator.Nazione</span>
                 <span class="u-text-body-color"></span>
             </p>
-            
-         </div>
-         Num = 0;
+         </div>*@
+         <section style="border: 10px solid red; min-height: auto; width: 1000px">
+             <table style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                 <tr>
+                     <th style="width: 25%; background-color: teal;">
+                         @item.Creator.Nome
+                     </th>
+                     <th style="width: 75%;background-color: teal;">
+                         Inviato il : @item.ReplyDate
+                     </th>
+                 </tr>
+                 <tr>
+                     <td style="background-color: white; color: black; border: 1px solid black">
+                         <p style="font-size: 22px; padding: 30px; text-align: center">
+                             <img class="" style="border-radius:25%; border: 1px solid white; width:200px; height:100%; padding: 10px; " src="~/images/6c33038d942006f3d68e04d531d22baa2c55b7dfc4bed3c1907b948cabe38fad64495241f9df1997a0fb54c8c3d15bc6cbb556e76e0d5a53d0f3af_1280-12.jpg">
+                             <font color="#111111">@item.Creator.Email</font><br />
+                             <span class="u-text-body-color">Messaggi :@APICaller.GetRepliesOfUser(item.Creator.id_User).Result.replies.Count</span><br />
+                             <span class="u-text-body-color">Nazione : @item.Creator.Nazione</span>
+                         </p>
+                     </td>
+                     <td style="background-color: white; color: black; border: 1px solid black; padding: 20px;">
+                         @if (!check)
+                         {
+                             <br>
+
+                             <div class="row">
+                                 <img class="u-image u-image-round u-radius-10 u-image-2" src="data:image/png;base64,@Model.post.Topic.Manga.Image" alt="" style="margin: 20px" data-image-width="500" data-image-height="706">
+                                 Title : @Model.post.Topic.Manga.Title<br>
+                                 Author : @Model.post.Topic.Manga.Author<br>
+                                 Status : @Model.post.Topic.Manga.Status<br />
+                             </div>
+                             <div class="row" style="position: relative;">
+                                 @item.Reply
+                             </div>
+                             check = true;
+                         }
+                         else
+                         {
+                             @item.Reply
+                         }
+                     </td>
+                 </tr>
+             </table>
+         </section>
+            Num = 0;
         }
-        </div>
         @*Fixare immagine da mettere solo nel post primario, mettere un tag per riconoscere il creatore del post / topic*@
 
     </div>
