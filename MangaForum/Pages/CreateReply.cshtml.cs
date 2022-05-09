@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using MangaForum.Data;
+using MangaForum.Models;
+using MangaForum.Models.Utilities.Requests;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
@@ -12,15 +15,35 @@ namespace MangaForum.Pages
     [Authorize]
     public class CreateReplyModel : PageModel
     {
-        private readonly ILogger<CreateReplyModel> _logger;
 
-        public CreateReplyModel(ILogger<CreateReplyModel> logger)
+        public readonly MangaIdentityDbContext _context;
+        public CreateReplyModel(MangaIdentityDbContext context)
         {
-            _logger = logger;
+            this._context = context;
         }
 
-        public void OnGet()
+        [BindProperty]
+        public ForumReply Reply { get; set; }
+        [BindProperty]
+        public ForumPost Post { get; set; }
+        public async Task<IActionResult> OnGetAsync(int id)
         {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var find =  APICaller.GetPostById(id).Result.posts.First();
+            Post = find;
+            return Page();
         }
+        public async Task<IActionResult> OnPostAsync(int id)
+        {
+
+            var user = _context.Users.Where(x => x.Email == User.Identity.Name).First();
+            await APICaller.CreateReply(new CreateReplyRequest { id_Creator = user.id_User,id_Post = id, Reply = Reply.Reply });
+
+            return RedirectToPage("/Posts",new {id});
+        }
+       
     }
 }

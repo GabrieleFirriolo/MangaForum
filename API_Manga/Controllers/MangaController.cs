@@ -113,6 +113,11 @@ namespace API_Manga.Controllers
         {
             return _forumService.GetTopicById(id);
         }
+        [HttpGet("reply/byid={id}")]
+        public Task<CreateReplyResponse> GetReplyById(int id)
+        {
+            return _forumService.GetReplyById(id);
+        }
         #endregion
 
         #region POST Methods

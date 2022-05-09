@@ -1,0 +1,54 @@
+﻿@page
+@model ElePostsModel
+@{
+     int Replies = 0;
+    int Posts = 0;
+    string Msg = "-";
+    int cont = 1;
+}
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="Bentornato , la tua ultima visita risale al dd/mm/yyyy, hh/mm​, ​Vuoi unirti a noi e iniziare a discutere del tuo manga preferito?">
+    <meta name="description" content="">
+    <meta name="page_type" content="np-template-header-footer-from-plugin">
+    <title>Home</title>
+    <link rel="stylesheet" href="~/css/nicepage.css" media="screen">
+    <link rel="stylesheet" href="~/css/Home.css" media="screen">
+    <script class="u-script" type="text/javascript" src="~/css/jquery.js" defer=""></script>
+    <script class="u-script" type="text/javascript" src="~/css/nicepage.js" defer=""></script>
+    <meta name="generator" content="Nicepage 4.9.5, nicepage.com">
+    <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
+    <link id="u-page-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald:200,300,400,500,600,700">
+
+    <meta name="theme-color" content="#478ac9">
+    <meta property="og:title" content="Home">
+    <meta property="og:type" content="website">
+</head>
+   <div class="u-expanded-width u-table u-table-responsive u-table-1">
+            <table class="u-table-entity">
+                <colgroup>
+                    <col width="100%">
+                </colgroup>
+                <thead class="u-grey-50 u-table-header u-text-black u-table-header-1">
+                    <tr style="height: 30px;">
+                        <th class="u-border-2 u-border-grey-40 u-table-cell">&nbsp;&gt; POST DI @Model.ElePosts.First().Topic.Name</th>
+                    </tr>
+                </thead>
+                <tbody class="u-palette-1-light-3 u-table-body u-table-body-1">
+                    @foreach (var item in Model.ElePosts)
+                    {
+                        <tr style="height: 51px;">
+                            <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">
+                                <a asp-page="./Posts" asp-route-id="@item.id_Post">@item.Topic.Name</a><br />
+                                Da : @item.Creator.Nome<br />
+                               @if(item.Replies != null)
+                               {<a> Risposte : @item.Replies.Count</a>}
+                               else{<a> Risposte : -</a> }<br />
+                            </td>
+                        </tr>
+                    }
+                    </tr>
+                </tbody>
+            </table>
+        </div>

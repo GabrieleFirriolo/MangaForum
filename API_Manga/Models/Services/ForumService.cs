@@ -293,6 +293,35 @@ namespace API_Manga.Models.Services
 
             };
         }
+        public async Task<CreateReplyResponse> GetReplyById(int id)
+        {
+            var reply = await _context.Replies.Where(reply => reply.id_Reply == id).FirstOrDefaultAsync();
+            await (from p in _context.Posts
+                   select new
+                   {
+                       p.id_Post,
+                       p.Creator,
+                       p.Topic,
+                       p.Topic.Manga,
+                       p.Replies
+                   }).ToListAsync();
+            if (reply == null)
+            {
+                return new CreateReplyResponse()
+                {
+                    state = false,
+                    reply = null,
+                    Error = new List<string>() { "Not Found" }
+                };
+            }
+            return new CreateReplyResponse()
+            {
+                state = true,
+                reply = reply,
+                Error = null,
+
+            };
+        }
         public async Task<CreateTopicResponse> GetTopicById(int id)
         {
             var Topics = await _context.Topics.Where(topic => topic.id_Topic == id).FirstOrDefaultAsync();

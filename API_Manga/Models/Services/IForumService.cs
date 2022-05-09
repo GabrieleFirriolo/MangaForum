@@ -24,6 +24,7 @@ namespace API_Manga.Models.Services
         public  Task<ReplyResponse> GetRepliesOfUser(int id);
         public Task<ReplyResponse> GetRepliesOfTopic(int id);
         public Task<CreateUserResponse> GetUserByEmail(string email);
+        public Task<CreateReplyResponse> GetReplyById(int id);
 
 
 

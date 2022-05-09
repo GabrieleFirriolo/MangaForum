@@ -53,19 +53,10 @@
                         if(APICaller.GetRepliesOfTopic(item.id_Topic).Result.state)
                         Msg = APICaller.GetRepliesOfTopic(item.id_Topic).Result.replies.OrderBy(x=>x.ReplyDate).First().Reply;
                         <tr style="height: 59px;">
-                            @if(cont == 1)
-                            {
-                                <td class="u-border-1 u-border-grey-40 u-table-cell"> <div style="background-image: url('data:image/png;base64,@item.Manga.Image')"
-                                class="u-image u-image-circle u-image-1" alt="@item.Manga.Title" data-image-width="1280" data-image-height="800"></div></td>
-                                cont++;
-
-                            }
-                            else
-                            {
-                                <td class="u-border-1 u-border-grey-40 u-table-cell"> <div style="background-image: url('data:image/png;base64,@item.Manga.Image')"
-                                class="u-image u-image-circle u-image-@cont" alt="@item.Manga.Title" data-image-width="1280" data-image-height="800"></div></td>
-                            }
-                            <td class="u-border-1 u-border-grey-40 u-table-cell">@item.Name</td>
+                                <td class="u-border-1 u-border-grey-40 u-table-cell"> 
+                                    <div style="background-image: url('data:image/png;base64,@item.Manga.Image');width:46px;height: 46px;background-position: 50% 50%;border-radius: 50%;background-size: cover;"
+                                alt="@item.Manga.Title" data-image-width="1280" data-image-height="800"/></td>
+                            <td class="u-border-1 u-border-grey-40 u-table-cell"><a asp-page="./ElePosts" asp-route-id="@item.id_Topic">@item.Name</a></td>
                             <td class="u-align-left u-border-1 u-border-grey-40 u-table-cell">@Posts</td>
                             <td class="u-border-1 u-border-grey-40 u-table-cell">@Replies</td>                                        
                             <td class="u-border-1 u-border-grey-40 u-table-cell">@Msg</td>                        

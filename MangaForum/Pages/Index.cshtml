@@ -52,8 +52,10 @@
                         <tr style="height: 51px;">
                             <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">
                                 <a asp-page="./Posts" asp-route-id="@item.id_Post">@item.Topic.Name</a><br />
-                                Da : @item.Creator.Nome<br />
-                                Risposte : @item.Replies.Count<br />
+                               <a>Da : @item.Creator.Nome</a> <br />
+                               @if(item.Replies != null)
+                               {<a> Risposte : @item.Replies.Count</a>}
+                               else{<a> Risposte : -</a> }<br />
                             </td>
                         </tr>
                     }
@@ -109,14 +111,24 @@
                                          class="u-image u-image-circle u-image-@cont" alt="@item.Manga.Title" data-image-width="1280" data-image-height="800"></div>
                                 </td>
                             }
-                            <td class="u-border-1 u-border-grey-40 u-table-cell">@item.Name</td>
+                            <td class="u-border-1 u-border-grey-40 u-table-cell"><a asp-page="./ElePosts" asp-route-id="@item.id_Topic">@item.Name</a><br /></td>
                             <td class="u-align-left u-border-1 u-border-grey-40 u-table-cell">@Posts</td>
                             <td class="u-border-1 u-border-grey-40 u-table-cell">@Replies</td>
-                            <td class="u-border-1 u-border-grey-40 u-table-cell">
-                                @Msg.Reply<br />
-                                Da : @Msg.Creator.Nome<br />
-                                Il : @Msg.ReplyDate.Date
-                            </td>
+                            @if (Msg.ReplyDate.Date != DateTime.Parse("10/10/2010"))
+                            {
+                                <td class="u-border-1 u-border-grey-40 u-table-cell"style="max-width: 10px;overflow: hidden;">
+                                    @Msg.Reply<br />
+                                    Da : @Msg.Creator.Nome<br />
+                                    Il : @Msg.ReplyDate.Date
+                                </td>
+                            }else
+                            {
+                                <td class="u-border-1 u-border-grey-40 u-table-cell"style="max-width: 10px;overflow: hidden;">
+                                    @Msg.Reply<br />
+                                    Da : @Msg.Creator.Nome<br />
+                                    Il : -
+                                </td>
+                            }
                         </tr>
                         Posts = 0;
                         Replies = 0;

@@ -233,6 +233,22 @@ namespace MangaForum.Data
                 return null;
             }
         }
+        public static async Task<CreateReplyResponse> GetRelyById(int  id)
+        {
+            HttpClient client = new HttpClient();
+            try
+            {
+                var result = await client.GetStringAsync(url + $"api/Manga/reply/byid={id}");
+
+                CreateReplyResponse response = JsonConvert.DeserializeObject<CreateReplyResponse>(result);
+
+                return response;
+            }
+            catch
+            {
+                return null;
+            }
+        }
 
         #endregion
 

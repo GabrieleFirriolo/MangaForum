@@ -27,7 +27,7 @@
 </head>
 <section class="u-clearfix u-image u-shading u-section-1" id="sec-77ab" data-image-width="1000" data-image-height="1000">
     <div class="u-clearfix u-sheet u-sheet-1">
-        <a asp-page="/CreateReply" class="u-border-none u-btn u-btn-round u-button-style u-hover-palette-1-light-2 u-palette-1-light-1 u-radius-13 u-btn-1">Rispondi</a>
+        <a asp-page="/CreateReply" asp-route-id=@Model.post.id_Post class="u-border-none u-btn u-btn-round u-button-style u-hover-palette-1-light-2 u-palette-1-light-1 u-radius-13 u-btn-1">Rispondi</a>
 
         <div class="u-align-left u-border-1 u-border-black u-container-style u-expanded-width u-grey-40 u-group u-group-1">
             <div class="u-container-layout u-container-layout-1">
@@ -36,7 +36,7 @@
         </div>
         @foreach (var item in Model.post.Replies)
         {
-        @*<div style="border: 10px solid red; min-height: auto; width: 1000px">
+       @* <div style="border: 10px solid red; min-height: auto; width: 1000px">
             <div class="u-expanded-width u-table u-table-responsive u-table-1">
                 <table class="u-table-entity">
                     <thead class="u-grey-50 u-table-header u-text-black u-table-header-1">
@@ -59,7 +59,9 @@
                                         Author : @Model.post.Topic.Manga.Author<br>
                                         Status : @Model.post.Topic.Manga.Status
                                     </div>
+                                    <div class="row" style="position:relative">
                                     @item.Reply 
+                                    </div>
                                     check = true;
                                 }
                                 else
@@ -89,22 +91,40 @@
                 <span class="u-text-body-color"></span>
             </p>
          </div>*@
-         <section style="border: 10px solid red; min-height: auto; width: 1000px">
+         <section style="border: 10px; min-height: auto; width: 100%">
              <table style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                  <tr>
-                     <th style="width: 25%; background-color: teal;">
+                     <th style="width: 25%; background-color: #3e567b;padding: 0px 10px;">
                          @item.Creator.Nome
                      </th>
-                     <th style="width: 75%;background-color: teal;">
-                         Inviato il : @item.ReplyDate
+                     <th style="width: 75%;background-color: #3e567b;">
+                         <a >Inviato il : @item.ReplyDate</a>
+                        @if(Model.post.Creator.Email == User.Identity.Name && !check)
+                        {
+                            <form method="post" style="display:inline-block">
+                                <input type="submit" value="Elimina Topic" name="delpost"/>
+                                <input type="hidden" asp-for="post.id_Post" value="@Model.post.id_Post"/>
+                            </form>                           
+                        }
+                           @if(item.Creator.Email == User.Identity.Name)
+                        {
+                            <form method="post">
+                                <input type="submit" value="Elimina risposta"name="delreply" />
+                                <input type="hidden" asp-for="reply.id_Reply" value="@item.id_Reply"/>
+                            </form>                           
+                        }
+                         
+                      
                      </th>
-                 </tr>
+                   
+                   
+                    </tr>
                  <tr>
                      <td style="background-color: white; color: black; border: 1px solid black">
-                         <p style="font-size: 22px; padding: 30px; text-align: center">
-                             <img class="" style="border-radius:25%; border: 1px solid white; width:200px; height:100%; padding: 10px; " src="~/images/6c33038d942006f3d68e04d531d22baa2c55b7dfc4bed3c1907b948cabe38fad64495241f9df1997a0fb54c8c3d15bc6cbb556e76e0d5a53d0f3af_1280-12.jpg">
+                         <p style="font-size: 15px; padding: 30px; text-align: center">
+                             <img class="" style="border-radius:25%; border: 1px solid white; width:200px; height:100%; padding: 10px; " src="~/images/6c33038d942006f3d68e04d531d22baa2c55b7dfc4bed3c1907b948cabe38fad64495241f9df1997a0fb54c8c3d15bc6cbb556e76e0d5a53d0f3af_1280-12.jpg"><br>
                              <font color="#111111">@item.Creator.Email</font><br />
-                             <span class="u-text-body-color">Messaggi :@APICaller.GetRepliesOfUser(item.Creator.id_User).Result.replies.Count</span><br />
+                             <span class="u-text-body-color">Messaggi : @APICaller.GetRepliesOfUser(item.Creator.id_User).Result.replies.Count</span><br />
                              <span class="u-text-body-color">Nazione : @item.Creator.Nazione</span>
                          </p>
                      </td>
@@ -114,7 +134,7 @@
                              <br>
 
                              <div class="row">
-                                 <img class="u-image u-image-round u-radius-10 u-image-2" src="data:image/png;base64,@Model.post.Topic.Manga.Image" alt="" style="margin: 20px" data-image-width="500" data-image-height="706">
+                                 <img class="u-image u-image-round u-radius-10 u-image-2" src="data:image/png;base64,@Model.post.Topic.Manga.Image" alt="" style="margin: 5px" data-image-width="500" data-image-height="706">
                                  Title : @Model.post.Topic.Manga.Title<br>
                                  Author : @Model.post.Topic.Manga.Author<br>
                                  Status : @Model.post.Topic.Manga.Status<br />
@@ -130,6 +150,10 @@
                          }
                      </td>
                  </tr>
+                   <tr style="height: 25px;">
+                            <td class="u-border-1 u-border-white u-grey-25 u-table-cell u-table-cell-5"></td>
+                            <td class="u-border-1 u-border-white u-grey-25 u-table-cell u-table-cell-6"></td>
+                   </tr>
              </table>
          </section>
             Num = 0;
