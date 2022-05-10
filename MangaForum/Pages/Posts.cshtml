@@ -1,4 +1,4 @@
-﻿@page
+﻿@page 
 @model PostsModel
 @{
     int Num = 0;
@@ -99,21 +99,21 @@
                      </th>
                      <th style="width: 75%;background-color: #3e567b;">
                          <a >Inviato il : @item.ReplyDate</a>
-                        @if(Model.post.Creator.Email == User.Identity.Name && !check)
-                        {
-                            <form method="post" style="display:inline-block">
-                                <input type="submit" value="Elimina Topic" name="delpost"/>
-                                <input type="hidden" asp-for="post.id_Post" value="@Model.post.id_Post"/>
-                            </form>                           
-                        }
-                           @if(item.Creator.Email == User.Identity.Name)
-                        {
-                            <form method="post">
-                                <input type="submit" value="Elimina risposta"name="delreply" />
-                                <input type="hidden" asp-for="reply.id_Reply" value="@item.id_Reply"/>
-                            </form>                           
-                        }
-                         
+                            @if (Model.post.Creator.Email == User.Identity.Name && !check)
+                            {
+                                <form method="post" style="display:inline-block">
+                                    <input type="submit" value="Elimina Topic" class="u-border-none u-btn u-btn-round u-btn-submit u-button-style u-hover-palette-1-light-2 u-palette-1-light-1 u-radius-13 u-btn-1"name="delpost"/>
+                                    <input type="hidden" asp-for="post.id_Post" value="@Model.post.id_Post"/>
+                                </form>
+                            }
+                            else if (item.Creator.Email == User.Identity.Name)
+                            {
+                                <form method="post">
+                                    <input type="submit" value="Elimina risposta" class="u-border-none u-btn u-btn-round u-btn-submit u-button-style u-hover-palette-1-light-2 u-palette-1-light-1 u-radius-13 u-btn-1" name="delreply" />
+                                    <input type="hidden" asp-for="reply.id_Reply" value="@item.id_Reply"/>
+                                </form>
+                            }
+
                       
                      </th>
                    

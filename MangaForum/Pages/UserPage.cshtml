@@ -1,0 +1,90 @@
+﻿@page
+@model UserPageModel
+@{
+     
+
+}
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="Bentornato , la tua ultima visita risale al dd/mm/yyyy, hh/mm​, ​Vuoi unirti a noi e iniziare a discutere del tuo manga preferito?">
+    <meta name="description" content="">
+    <meta name="page_type" content="np-template-header-footer-from-plugin">
+    <title>Home</title>
+    <link rel="stylesheet" href="~/css/nicepage.css" media="screen">
+    <link rel="stylesheet" href="~/css/Home.css" media="screen">
+    <script class="u-script" type="text/javascript" src="~/css/jquery.js" defer=""></script>
+    <script class="u-script" type="text/javascript" src="~/css/nicepage.js" defer=""></script>
+    <meta name="generator" content="Nicepage 4.9.5, nicepage.com">
+    <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
+    <link id="u-page-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald:200,300,400,500,600,700">
+
+    <meta name="theme-color" content="#478ac9">
+    <meta property="og:title" content="Home">
+    <meta property="og:type" content="website">
+</head>
+      <section style="border: 10px; min-height: auto; width: 100%">
+          @*   <table style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                 <tr>
+                     <th style="width: 25%; background-color: #3e567b;padding: 0px 10px;">
+                         @item.Creator.Nome
+                     </th>
+                     <th style="width: 75%;background-color: #3e567b;">
+                         <a >Inviato il : @item.ReplyDate</a>
+                        @if(Model.post.Creator.Email == User.Identity.Name && !check)
+                        {
+                            <form method="post" style="display:inline-block">
+                                <input type="submit" value="Elimina Topic" name="delpost"/>
+                                <input type="hidden" asp-for="post.id_Post" value="@Model.post.id_Post"/>
+                            </form>                           
+                        }
+                           @if(item.Creator.Email == User.Identity.Name)
+                        {
+                            <form method="post">
+                                <input type="submit" value="Elimina risposta"name="delreply" />
+                                <input type="hidden" asp-for="reply.id_Reply" value="@item.id_Reply"/>
+                            </form>                           
+                        }
+                         
+                      
+                     </th>
+                   
+                   
+                    </tr>
+                 <tr>
+                     <td style="background-color: white; color: black; border: 1px solid black">
+                         <p style="font-size: 15px; padding: 30px; text-align: center">
+                             <img class="" style="border-radius:25%; border: 1px solid white; width:200px; height:100%; padding: 10px; " src="~/images/6c33038d942006f3d68e04d531d22baa2c55b7dfc4bed3c1907b948cabe38fad64495241f9df1997a0fb54c8c3d15bc6cbb556e76e0d5a53d0f3af_1280-12.jpg"><br>
+                             <font color="#111111">@item.Creator.Email</font><br />
+                             <span class="u-text-body-color">Messaggi : @APICaller.GetRepliesOfUser(item.Creator.id_User).Result.replies.Count</span><br />
+                             <span class="u-text-body-color">Nazione : @item.Creator.Nazione</span>
+                         </p>
+                     </td>
+                     <td style="background-color: white; color: black; border: 1px solid black; padding: 20px;">
+                         @if (!check)
+                         {
+                             <br>
+
+                             <div class="row">
+                                 <img class="u-image u-image-round u-radius-10 u-image-2" src="data:image/png;base64,@Model.post.Topic.Manga.Image" alt="" style="margin: 5px" data-image-width="500" data-image-height="706">
+                                 Title : @Model.post.Topic.Manga.Title<br>
+                                 Author : @Model.post.Topic.Manga.Author<br>
+                                 Status : @Model.post.Topic.Manga.Status<br />
+                             </div>
+                             <div class="row" style="position: relative;">
+                                 @item.Reply
+                             </div>
+                             check = true;
+                         }
+                         else
+                         {
+                             @item.Reply
+                         }
+                     </td>
+                 </tr>
+                   <tr style="height: 25px;">
+                            <td class="u-border-1 u-border-white u-grey-25 u-table-cell u-table-cell-5"></td>
+                            <td class="u-border-1 u-border-white u-grey-25 u-table-cell u-table-cell-6"></td>
+                   </tr>
+             </table>*@
+         </section>

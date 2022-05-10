@@ -22,8 +22,23 @@ namespace MangaForum.Pages
         [BindProperty]
         public List<ForumTopic> EleTopics { get; set; }
     
-            public async Task<IActionResult> OnGet()
+            public async Task<IActionResult> OnGet(string Name,string Ordina)
             {
+                if (Name != null)
+                {
+                    EleTopics = APICaller.GetAllTopics().Result;
+                        
+                 var list = EleTopics.Where(x => x.Name.ToLower().Trim().Contains(Name.ToLower().Trim())).ToList();
+                    EleTopics = list;
+                    return Page();
+                }   
+                else if (Ordina != null)
+                {
+                    //int count = 
+                    //var list = EleTopics.OrderBy(x => APICaller.GetPostOfTopic(x.id_Topic).Result.posts.Count).ToList();
+                    //EleTopics = list;
+                    return Page();
+                }
                 try
                 {
                     EleTopics = APICaller.GetAllTopics().Result;                   
@@ -36,6 +51,7 @@ namespace MangaForum.Pages
                 }
                 return Page();
             }
-        
+       
+
     }
 }

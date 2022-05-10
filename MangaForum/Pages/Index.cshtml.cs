@@ -61,7 +61,7 @@ namespace MangaForum.Pages
             }
             catch (Exception ex)
             {
-                return RedirectToPage("/Error");
+                return Redirect("/Error");
 
             }
             return Page();

@@ -36,25 +36,19 @@
                 </div>
                 <div class="u-form-group u-form-group-3">
                   <label for="text-39f8" class="u-label u-label-3">Manga</label>
-                  <input asp-for="Topic.Manga.Title"type="text" placeholder="Cerca un manga ..." id="text-39f8"class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-radius-7 u-white" required="required"style="display:inline;">
-                  <input readonly asp-for="Manga.Title"type="text" placeholder="Clicca il bottone per l'anteprima'" id="text-39f8"class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-radius-7 u-white" required="required" style="width: 300px;display: inline-block;-webkit-user-modify: read-only;">
-                  <div style="background-image: url('data:image/png;base64,@Model.Manga.Image');width:46px;height: 46px;background-position: 50% 50%;border-radius: 50%;background-size: cover;display:inline;margin: 10px 10px -20px;display:inline-block"
-                                alt="@Model.Manga.Title" data-image-width="1280" data-image-height="800"></div>
-                  <input type="submit" value="Check" name="check" class="u-border-none u-btn u-btn-round u-btn-submit u-button-style u-hover-palette-1-light-2 u-palette-1-light-1 u-radius-13 u-btn-1">
-
-
+                      <input asp-for="Topic.Manga.Title" type="text" placeholder="Cerca un manga ..." id="input" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-radius-7 u-white" required="required"style="display:inline;">
+                      <input readonly asp-for="@Model.MangaTitleTrovato" type="text" placeholder="Clicca il bottone per l'anteprima'" id="txt"class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-radius-7 u-white" required="required" style="width: 300px;display: inline-block;-webkit-user-modify: read-only;">
+                      <div id="img" style="background-image: url('data:image/png;base64,@Model.Manga.Image');width:46px;height: 46px;background-position: 50% 50%;border-radius: 50%;background-size: cover;display:inline;margin: 10px 10px -20px;display:inline-block"
+                                    alt="@Model.Manga.Title" data-image-width="1280" data-image-height="800"></div>
+                      <input type="submit" value="Check" name="Button" class="u-border-none u-btn u-btn-round u-btn-submit u-button-style u-hover-palette-1-light-2 u-palette-1-light-1 u-radius-13 u-btn-1">
                 </div>
                 <div class="u-form-group u-form-message">
                   <label for="message-ba0f" class="u-label u-label-4">Messaggio</label>
-                  <textarea asp-for="FirstPostMessage" placeholder="Scrivere il messaggio ..." rows="4" cols="50" id="message-ba0f" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-radius-7 u-white" required="" maxlength="500"></textarea>
+                  <textarea asp-for="FirstPostMessage" placeholder="Scrivere il messaggio ..." rows="4" cols="50" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-radius-7 u-white" required="" maxlength="500"></textarea>
                 </div>
                 <div class="u-align-center u-form-group u-form-submit">
-@*                  <a href="#" class="u-border-none u-btn u-btn-round u-btn-submit u-button-style u-hover-palette-1-light-2 u-palette-1-light-1 u-radius-13 u-btn-1">Invia</a>
-*@                  <input type="submit" value="Crea"name="create" class="u-border-none u-btn u-btn-round u-btn-submit u-button-style u-hover-palette-1-light-2 u-palette-1-light-1 u-radius-13 u-btn-1">
+                  <input type="submit" value="Crea" class="u-border-none u-btn u-btn-round u-btn-submit u-button-style u-hover-palette-1-light-2 u-palette-1-light-1 u-radius-13 u-btn-1">
                 </div>
-             @*   <div class="u-form-send-message u-form-send-success">Topic creato con successo</div>
-                <div class="u-form-send-error u-form-send-message">Errore nella creazione del topic, riprova.
-Se l'errore persiste contattaci.</div>*@
               </form>
             </div>
           </div>

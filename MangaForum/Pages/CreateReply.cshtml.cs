@@ -40,9 +40,12 @@ namespace MangaForum.Pages
         {
 
             var user = _context.Users.Where(x => x.Email == User.Identity.Name).First();
-            await APICaller.CreateReply(new CreateReplyRequest { id_Creator = user.id_User,id_Post = id, Reply = Reply.Reply });
+            var reply = await APICaller.CreateReply(new CreateReplyRequest { id_Creator = user.id_User,id_Post = id, Reply = Reply.Reply });
 
-            return RedirectToPage("/Posts",new {id});
+            if (reply.state)
+                return Redirect($"/Posts?id={id}");
+            else
+                return Redirect("/Error");
         }
        
     }

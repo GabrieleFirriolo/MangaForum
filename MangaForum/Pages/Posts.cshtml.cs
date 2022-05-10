@@ -45,7 +45,9 @@ namespace MangaForum.Pages
             {
                 post = APICaller.GetPostById(post.id_Post).Result.posts.First();
                 await APICaller.DeleteTopic(new DeleteTopicRequest { id_Topic = post.Topic.id_Topic});
-                return RedirectToPage("./Index");
+                return Redirect("./Index");
+                
+
             }
             return NotFound();
         }
