@@ -34,10 +34,23 @@ namespace MangaForum.Pages
                 }   
                 else if (Ordina != null)
                 {
-                    //int count = 
-                    //var list = EleTopics.OrderBy(x => APICaller.GetPostOfTopic(x.id_Topic).Result.posts.Count).ToList();
-                    //EleTopics = list;
-                    return Page();
+                //int count = 
+                //var list = EleTopics.OrderBy(x => APICaller.GetPostOfTopic(x.id_Topic).Result.posts.Count).ToList();
+                //EleTopics = list;
+                    EleTopics = new List<ForumTopic>();
+                    List<KeyValuePair<int, ForumTopic>> mylist = new List<KeyValuePair<int, ForumTopic>>();
+                    var templist = APICaller.GetAllTopics().Result;
+                    foreach (var item in templist)
+                    {
+                        if (APICaller.GetPostOfTopic(item.id_Topic).Result.state)
+                            mylist.Add(new KeyValuePair<int, ForumTopic>(APICaller.GetPostOfTopic(item.id_Topic).Result.posts.Count, item));
+
+                    }
+                    foreach (var topicrev in mylist.OrderByDescending(x => x.Key))
+                    {
+                        EleTopics.Add(topicrev.Value);
+                    }
+                return Page();
                 }
                 try
                 {

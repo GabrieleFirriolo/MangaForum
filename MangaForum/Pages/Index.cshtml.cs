@@ -50,7 +50,6 @@ namespace MangaForum.Pages
                 {
                     if(item.Replies!= null)
                     mylist2.Add(new KeyValuePair<DateTime, ForumPost>(item.Replies.OrderByDescending(x=>x.ReplyDate).First().ReplyDate, item));
-
                 }
                 foreach (var lastpost in mylist2.OrderByDescending(x => x.Key).Take(5))
                 {

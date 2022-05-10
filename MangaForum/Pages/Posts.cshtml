@@ -98,7 +98,7 @@
                          @item.Creator.Nome
                      </th>
                      <th style="width: 75%;background-color: #3e567b;">
-                         <a >Inviato il : @item.ReplyDate</a>
+                         <a >Inviato il : @item.ReplyDate.Date.ToString("dd/mm/yyyy")</a>
                             @if (Model.post.Creator.Email == User.Identity.Name && !check)
                             {
                                 <form method="post" style="display:inline-block">
