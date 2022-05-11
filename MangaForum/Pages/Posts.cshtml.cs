@@ -33,20 +33,28 @@ namespace MangaForum.Pages
             post = APICaller.GetPostById(id).Result.posts.First();
             return Page();
         }
-        public async Task<IActionResult> OnPostAsync(string delpost,string delreply)
+        public async Task<IActionResult> OnPostAsync(int id,string delpost,string delreply,string modreply)
         {
             if (delreply != null)
             {
-                reply = APICaller.GetRelyById(reply.id_Reply).Result.reply;
+                reply = APICaller.GetReplyById(reply.id_Reply).Result.reply;
                 await APICaller.DeleteReply(new DeleteReplyRequest { id_Reply = reply.id_Reply });
+                post = APICaller.GetPostById(id).Result.posts.First();
+
+
                 return Page();
             }
             else if(delpost != null)
             {
                 post = APICaller.GetPostById(post.id_Post).Result.posts.First();
-                await APICaller.DeleteTopic(new DeleteTopicRequest { id_Topic = post.Topic.id_Topic});
-                return Redirect("./Index");
-                
+                await APICaller.DeletePost(new DeletePostRequest { id_Post = post.id_Post});
+                return Redirect("./Index");               
+            }
+            else if (modreply != null)
+            {
+                reply = APICaller.GetReplyById(reply.id_Reply).Result.reply;
+                return Redirect($"./ModReply?id={reply.id_Reply}");
+
 
             }
             return NotFound();

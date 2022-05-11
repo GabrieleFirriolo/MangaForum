@@ -36,81 +36,40 @@
         </div>
         @foreach (var item in Model.post.Replies)
         {
-       @* <div style="border: 10px solid red; min-height: auto; width: 1000px">
-            <div class="u-expanded-width u-table u-table-responsive u-table-1">
-                <table class="u-table-entity">
-                    <thead class="u-grey-50 u-table-header u-text-black u-table-header-1">
-                        <tr>
-                            <th class="u-align-center u-border-1 u-border-white u-grey-30 u-table-cell u-text-body-color u-table-cell-1" style="width: 25%; background-color: teal;">@item.Creator.Nome</th>
-                            <th class="u-border-1 u-border-white u-grey-30 u-table-cell u-text-black u-table-cell-2" style="width: 75%; background-color: teal;">Inviato il : @item.ReplyDate</th>
-                        </tr>
-                    </thead>
-                    <tbody class="u-palette-1-light-3 u-table-body u-table-body-1">
-                        <tr>
-                            <td class="u-border-1 u-border-white u-table-cell"></td>
-                            <td class="u-border-1 u-border-white u-table-cell u-table-valign-top">
-                                @if (!check)
-                                {
-                                    <br>
-
-                                    <div class="row">
-                                        <img class="u-image u-image-round u-radius-10 u-image-2" src="data:image/png;base64,@Model.post.Topic.Manga.Image" alt="" data-image-width="500" data-image-height="706">
-                                        Title : @Model.post.Topic.Manga.Title<br>
-                                        Author : @Model.post.Topic.Manga.Author<br>
-                                        Status : @Model.post.Topic.Manga.Status
-                                    </div>
-                                    <div class="row" style="position:relative">
-                                    @item.Reply 
-                                    </div>
-                                    check = true;
-                                }
-                                else
-                                {
-                                    @item.Reply
-                                }
-
-                            </td>
-                        </tr>
-                        <tr style="height: 25px;">
-                            <td class="u-border-1 u-border-white u-grey-25 u-table-cell u-table-cell-5"></td>
-                            <td class="u-border-1 u-border-white u-grey-25 u-table-cell u-table-cell-6"></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <p class="u-custom-font u-font-oswald u-text u-text-default u-text-2">
-                <font color="#111111">@item.Creator.Email</font>
-            </p>
-            <img class="u-image u-image-round u-radius-6 u-image-1" src="~/images/6c33038d942006f3d68e04d531d22baa2c55b7dfc4bed3c1907b948cabe38fad64495241f9df1997a0fb54c8c3d15bc6cbb556e76e0d5a53d0f3af_1280-12.jpg" alt="" data-image-width="1280" data-image-height="800">
-            <p class="u-custom-font u-font-oswald u-text u-text-default u-text-3">
-                <span class="u-text-body-color">Messaggi :@APICaller.GetRepliesOfUser(item.Creator.id_User).Result.replies.Count</span>
-                <span class="u-text-body-color"></span>
-            </p>
-            <p class="u-custom-font u-font-oswald u-text u-text-default u-text-4">
-                <span class="u-text-body-color">Nazione : @item.Creator.Nazione</span>
-                <span class="u-text-body-color"></span>
-            </p>
-         </div>*@
          <section style="border: 10px; min-height: auto; width: 100%">
              <table style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                  <tr>
                      <th style="width: 25%; background-color: #3e567b;padding: 0px 10px;">
                          @item.Creator.Nome
                      </th>
-                     <th style="width: 75%;background-color: #3e567b;">
-                         <a >Inviato il : @item.ReplyDate.Date.ToString("dd/mm/yyyy")</a>
+                     <th style="width: 100%;background-color: #3e567b;display: flex;justify-content: space-between;">
+                         <a >Inviato il : @item.ReplyDate.Date.ToString("dd/MM/yyyy hh:mm")</a>
                             @if (Model.post.Creator.Email == User.Identity.Name && !check)
                             {
                                 <form method="post" style="display:inline-block">
-                                    <input type="submit" value="Elimina Topic" class="u-border-none u-btn u-btn-round u-btn-submit u-button-style u-hover-palette-1-light-2 u-palette-1-light-1 u-radius-13 u-btn-1"name="delpost"/>
+                                    <input type="submit" value="Elimina Post" class="u-border-none u-btn u-btn-round u-btn-submit u-button-style u-hover-palette-1-light-2 u-palette-1-light-1 u-radius-13 u-btn-1"name="delpost"/>
+                                    <input type="hidden" asp-for="post.id_Post" value="@Model.post.id_Post"/>
+                                </form>
+                                 
+                                <form method="post"style="display:inline-block">
+                                    <input type="submit" value="Modifica messaggio" class="u-border-none u-btn u-btn-round u-btn-submit u-button-style u-hover-palette-1-light-2 u-palette-1-light-1 u-radius-13 u-btn-1" name="modreply" />
+                                    <input type="hidden" asp-for="reply.id_Reply" value="@item.id_Reply"/>
                                     <input type="hidden" asp-for="post.id_Post" value="@Model.post.id_Post"/>
                                 </form>
                             }
                             else if (item.Creator.Email == User.Identity.Name)
                             {
-                                <form method="post">
+                                <form method="post"style="display:inline-block">
                                     <input type="submit" value="Elimina risposta" class="u-border-none u-btn u-btn-round u-btn-submit u-button-style u-hover-palette-1-light-2 u-palette-1-light-1 u-radius-13 u-btn-1" name="delreply" />
                                     <input type="hidden" asp-for="reply.id_Reply" value="@item.id_Reply"/>
+                                    <input type="hidden" asp-for="post.id_Post" value="@Model.post.id_Post"/>
+
+                                </form>
+                                
+                                <form method="post"style="display:inline-block">
+                                    <input type="submit" value="Modifica messaggio" class="u-border-none u-btn u-btn-round u-btn-submit u-button-style u-hover-palette-1-light-2 u-palette-1-light-1 u-radius-13 u-btn-1" name="modreply" />
+                                    <input type="hidden" asp-for="reply.id_Reply" value="@item.id_Reply"/>
+                                    <input type="hidden" asp-for="post.id_Post" value="@Model.post.id_Post"/>
                                 </form>
                             }
 
@@ -122,9 +81,11 @@
                  <tr>
                      <td style="background-color: white; color: black; border: 1px solid black">
                          <p style="font-size: 15px; padding: 30px; text-align: center">
-                             <img class="" style="border-radius:25%; border: 1px solid white; width:200px; height:100%; padding: 10px; " src="~/images/6c33038d942006f3d68e04d531d22baa2c55b7dfc4bed3c1907b948cabe38fad64495241f9df1997a0fb54c8c3d15bc6cbb556e76e0d5a53d0f3af_1280-12.jpg"><br>
+                             <img style="width: 150px;height: 150px;margin-left: auto;margin-right: auto;margin-bottom: 30px;/* transform: translateY(-50%); */border-radius: 50%;overflow: hidden;position: relative;z-index: 4;box-shadow: 0px 5px 50px 0px #478ac9, 0px 0px 0px 7px #111111;"@* style="border-radius:25%; border: 1px solid white; width:200px; height:100%; padding: 10px; "*@ src="data:image/png;base64,@item.Creator.UserImage"><br>
                              <font color="#111111">@item.Creator.Email</font><br />
-                             <span class="u-text-body-color">Messaggi : @APICaller.GetRepliesOfUser(item.Creator.id_User).Result.replies.Count</span><br />
+                                @if (APICaller.GetRepliesOfUser(item.Creator.id_User).Result.state)
+                                    Num = @APICaller.GetRepliesOfUser(item.Creator.id_User).Result.replies.Count;
+                                <span class="u-text-body-color">Messaggi : @Num</span><br />
                              <span class="u-text-body-color">Nazione : @item.Creator.Nazione</span>
                          </p>
                      </td>
@@ -158,7 +119,7 @@
          </section>
             Num = 0;
         }
-        @*Fixare immagine da mettere solo nel post primario, mettere un tag per riconoscere il creatore del post / topic*@
+        @*Mettere il colore style="color: #478ac9;"*@
 
     </div>
 </section>

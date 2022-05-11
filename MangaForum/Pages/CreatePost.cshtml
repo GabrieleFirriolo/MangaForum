@@ -27,16 +27,35 @@
           <div class="u-container-layout u-container-layout-1">
             <h2 class="u-custom-font u-font-oswald u-subtitle u-text u-text-default u-text-1">Crea un nuovo Post!</h2>
             <div class="u-form u-form-1">
-                <form  method="post" class="u-clearfix u-form-spacing-13 u-form-vertical u-inner-form" style="padding: 20px;">
-                    <div class="u-form-group u-form-group-3">
-                        <select asp-for="Topic.id_Topic" class="form-control">
-                            <option selected="selected">Seleziona un topic :</option>
-                            @foreach (var item in Model.EleTopics)
-                            {
-                                <option value="@item.id_Topic">@item.Name : @item.Manga.Title</option>
-                            }
-                        </select>
-                    </div>
+                <form  method="post" style="padding: 20px;">
+                    @if(!Request.QueryString.HasValue)
+                    {
+                    
+                         <div class="u-form-group u-form-group-3">
+                            <select asp-for="Topic.id_Topic" class="form-control">
+                                <option selected="selected">Seleziona un topic :</option>
+                                @foreach (var item in Model.EleTopics)
+                                {
+                                    <option value="@item.id_Topic">@item.Name : @item.Manga.Title</option>
+                                }
+                            </select>
+                            </div>
+                        }
+                        else
+                        {
+                               <div class="u-form-group u-form-group-3">
+                            <select asp-for="Topic.id_Topic" class="form-control">
+                                <option selected="selected" value="@Model.Topic">@Model.Topic.Name : @Model.Topic.Manga.Title</option>
+                                @foreach (var item in Model.EleTopics)
+                                {
+                                    <option value="@item.id_Topic">@item.Name : @item.Manga.Title</option>
+                                }
+                            </select>
+                            <span asp-validation-for="@Model.Topic" class="text-danger"></span>
+
+                            </div>
+                        }
+
                     
                     <div class="u-form-group u-form-message">
                         <label for="message-ba0f" class="u-label u-label-4">Messaggio</label>

@@ -1,7 +1,9 @@
-﻿using MangaForum.Data;
+﻿using MangaForum.Areas;
+using MangaForum.Data;
 using MangaForum.Models;
 using MangaForum.Models.Utilities.Requests;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
@@ -17,9 +19,12 @@ namespace MangaForum.Pages
     {
 
         public readonly MangaIdentityDbContext _context;
-        public CreateReplyModel(MangaIdentityDbContext context)
+        private readonly UserManager<ForumUser> _manager;
+
+        public CreateReplyModel(MangaIdentityDbContext context, UserManager<ForumUser> manager)
         {
             this._context = context;
+            this._manager = manager;
         }
 
         [BindProperty]
@@ -39,10 +44,10 @@ namespace MangaForum.Pages
         public async Task<IActionResult> OnPostAsync(int id)
         {
 
-            var user = _context.Users.Where(x => x.Email == User.Identity.Name).First();
-            var reply = await APICaller.CreateReply(new CreateReplyRequest { id_Creator = user.id_User,id_Post = id, Reply = Reply.Reply });
+            int user = _manager.GetUserAsync(User).Result.id_User;
+            var reply = APICaller.CreateReply(new CreateReplyRequest { id_Creator = user,id_Post = id, Reply = Reply.Reply });
 
-            if (reply.state)
+            if (reply.Result.state)
                 return Redirect($"/Posts?id={id}");
             else
                 return Redirect("/Error");

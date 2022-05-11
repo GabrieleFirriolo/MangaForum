@@ -18,6 +18,6 @@ namespace MangaForum.Models.Utilities.Requests
         public string Nazione { get; set; }
         [Required]
         public string Email { get; set; }
-
+        public string UserImage { get; set; }
     }
 }

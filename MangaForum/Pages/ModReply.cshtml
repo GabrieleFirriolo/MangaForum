@@ -1,0 +1,49 @@
+﻿@page
+@model ModReplyModel
+@{
+
+}
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="Stai rispondendo a : [User]">
+    <meta name="description" content="">
+    <meta name="page_type" content="np-template-header-footer-from-plugin">
+    <title>Reply</title>
+    <link rel="stylesheet" href="~/css/nicepage.css" media="screen">
+    <link rel="stylesheet" href="~/css~/css/Reply.css" media="screen">
+    <script class="u-script" type="text/javascript" src="~/css/jquery.js" defer=""></script>
+    <script class="u-script" type="text/javascript" src="~/css/nicepage.js" defer=""></script>
+    <meta name="generator" content="Nicepage 4.9.5, nicepage.com">
+    <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
+    <link id="u-page-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald:200,300,400,500,600,700">
+
+    <meta name="theme-color" content="#478ac9">
+    <meta property="og:title" content="Reply">
+    <meta property="og:type" content="website">
+</head>
+<div style="height: 45.7rem">
+    <section class="u-clearfix u-image u-shading u-section-1" id="sec-60aa" data-image-width="1000" data-image-height="1000">
+        <div class="u-align-left u-clearfix u-sheet u-sheet-1">
+            <div class="u-container-style u-expanded-width u-grey-10 u-group u-group-1">
+                <div class="u-container-layout u-container-layout-1">
+                    <h2 class="u-custom-font u-font-oswald u-subtitle u-text u-text-default u-text-1">&nbsp;&nbsp;Stai rispondendo a : <u>@Model.Post.Creator.Nome</u>  nel topic : <u>@Model.Post.Topic.Name</u></h2>
+                    <div class="u-form u-form-1">
+                        <form method="post" style="padding: 29px;">
+                            <input type="hidden" asp-for="Reply.id_Reply">
+                            <input type="hidden" asp-for="Post.id_Post" />
+                            <div class="u-form-group u-form-message">
+                                <label for="message-ba0f" class="u-label u-label-1">Messaggio</label>
+                                <textarea asp-for="Reply.Reply" placeholder="Scrivi la tua risposta ..." rows="4" cols="50" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="" maxlength="500"></textarea>
+                            </div>
+                            <div class="u-align-center u-form-group u-form-submit">
+                                <input type="submit" value="Rispondi" class="u-border-none u-btn u-btn-round u-btn-submit u-button-style u-hover-palette-1-light-2 u-palette-1-light-1 u-radius-13 u-btn-1">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

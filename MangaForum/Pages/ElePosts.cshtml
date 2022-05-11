@@ -1,10 +1,11 @@
 ﻿@page
 @model ElePostsModel
 @{
-     int Replies = 0;
+    int Replies = 0;
     int Posts = 0;
     string Msg = "-";
     int cont = 1;
+    var userid = APICaller.GetUserByEmail(User.Identity.Name).Result.user.id_User;
 }
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,41 +29,57 @@
 <div class="row " style="display: flex;flex-wrap: wrap;align-content: space-between;justify-content: space-around;align-items: flex-end;flex-direction: row;">
     <form method="get">
         <div class="form-actions no-color" style="display: flex;margin: 0px 0px 20px;">
-                <input type="text" style="" name="SearchUser" class="form-control" placeholder="Cerca per utente..."/>
-                <input type="hidden" asp-for="Id"/>
-                <input style="display:inline;background-color:whitesmoke;margin: 0px 10px;" type="submit" value="Search" class="btn btn-outline-dark justify-content-md-center" />
+            <input type="text" style="" name="SearchUser" class="form-control" placeholder="Cerca per utente..." />
+            <input type="hidden" asp-for="Id" />
+            <input style="display:inline;background-color:whitesmoke;margin: 0px 10px;" type="submit" value="Search" class="btn btn-outline-dark justify-content-md-center" />
         </div>
     </form>
-     <form  method="get"> 
+    <form method="get">
 
-        <p><input type="hidden" asp-for="Id"/><input  style="background-color:whitesmoke" type="submit" name="Ordina" value="Ordina per numero di risposte" class="btn btn-outline-dark" /></p>
+        <p><input type="hidden" asp-for="Id" /><input style="background-color:whitesmoke" type="submit" name="Ordina" value="Ordina per numero di risposte" class="btn btn-outline-dark" /></p>
     </form>
 
 </div>
-   <div class="u-expanded-width u-table u-table-responsive u-table-1">
-            <table class="u-table-entity">
-                <colgroup>
-                    <col width="100%">
-                </colgroup>
-                <thead class="u-grey-50 u-table-header u-text-black u-table-header-1">
-                    <tr style="height: 30px;">
-                        <th class="u-border-2 u-border-grey-40 u-table-cell">&nbsp;&gt; POST DI @Model.ElePosts.First().Topic.Name</th>
-                    </tr>
-                </thead>
-                <tbody class="u-palette-1-light-3 u-table-body u-table-body-1">
-                    @foreach (var item in Model.ElePosts)
-                    {
-                        <tr style="height: 51px;">
-                            <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">
-                                <a asp-page="./Posts" asp-route-id="@item.id_Post">@item.Topic.Name</a><br />
-                                Da : @item.Creator.Nome<br />
-                               @if(item.Replies != null)
-                               {<a> Risposte : @item.Replies.Count</a>}
-                               else{<a> Risposte : -</a> }<br />
-                            </td>
-                        </tr>
-                    }
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+
+<div class="u-expanded-width u-table u-table-responsive u-table-1">
+    <a asp-page="/CreatePost" asp-route-id=@Model.ElePosts.First().Topic.id_Topic class="u-border-none u-btn u-btn-round u-button-style u-hover-palette-1-light-2 u-palette-1-light-1 u-radius-13 u-btn-1">Crea Post</a>
+    <table class="u-table-entity">
+        <colgroup>
+            <col width="100%">
+        </colgroup>
+        <thead class="u-grey-50 u-table-header u-text-black u-table-header-1" >
+            <tr style="height: 30px;">
+                <th class="u-border-2 u-border-grey-40 u-table-cell"style="display: flex;justify-content: space-between;">&nbsp;&gt; POST DI @Model.ElePosts.First().Topic.Name
+                      @if (Model.check)
+                {
+                        <a asp-page="/ModTopic" asp-route-id=@Model.ElePosts.First().Topic.id_Topic style=""class="u-border-none u-btn u-btn-round u-button-style u-hover-palette-1-light-2 u-palette-1-light-1 u-radius-13 u-btn-1">Modifica Topic</a>
+                }
+
+                </th>
+
+
+              
+            </tr>
+        </thead>
+        <tbody class="u-palette-1-light-3 u-table-body u-table-body-1">
+            @foreach (var item in Model.ElePosts)
+            {
+                <tr style="height: 51px;">
+                    <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">
+                        <a asp-page="./Posts" asp-route-id="@item.id_Post">@item.Topic.Name</a><br />
+                        Da : @item.Creator.Nome<br />
+                        @if (item.Replies != null)
+                        {
+                            <a> Risposte : @item.Replies.Count</a>
+                        }
+                        else
+                        {
+                            <a> Risposte : -</a>
+                        }<br />
+                    </td>
+                </tr>
+            }
+            </tr>
+        </tbody>
+    </table>
+</div>

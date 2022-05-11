@@ -24,7 +24,7 @@ namespace MangaForum.Areas
         public DateTime DataDiNascita { get; set; }
         [Required]
         public string Nazione { get; set; }
+        public string UserImage { get; set; }
 
-    
     }
 }

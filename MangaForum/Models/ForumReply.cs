@@ -13,5 +13,6 @@ namespace MangaForum.Models
         public ForumUser Creator { get; set; }
         public string Reply { get; set; }
         public DateTime ReplyDate { get; set; }
+        public ForumPost Post { get; set; }
     }
 }

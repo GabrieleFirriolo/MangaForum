@@ -27,6 +27,11 @@ namespace API_Manga.Models.Services
                        p.Topic.Manga,
                        p.Replies
                    }).ToListAsync();
+            await (from p in _context.Replies
+                   select new
+                   {
+                       p.Creator
+                   }).ToListAsync();
             return await _context.Topics.ToListAsync();
         }
         public async Task<IEnumerable<ForumPost>> GetAllPosts()
@@ -39,14 +44,17 @@ namespace API_Manga.Models.Services
                        p.Topic.Manga,
                        p.Replies
                    }).ToListAsync();
+            await (from p in _context.Replies
+                   select new
+                   {
+                       p.Creator
+                   }).ToListAsync();
             return await _context.Posts.ToListAsync();
         }
-
         public async Task<IEnumerable<Manga>> GetAllMangas()
         {
             return await _context.Mangas.ToListAsync();
         }
-
         public async Task<GetMangaByIdResponse> GetMangaById(int id)
         {
             var Manga = await _context.Mangas.FirstOrDefaultAsync(manga => manga.id_Manga == id);
@@ -68,7 +76,6 @@ namespace API_Manga.Models.Services
             };
 
         }
-
         public async Task<GetMangaByNameResponse> GetMangaByName(string name)
         {
             var Manga = await _context.Mangas.Where(manga => manga.Title.ToLower().Contains(name.ToLower().Trim())).ToListAsync();
@@ -89,9 +96,13 @@ namespace API_Manga.Models.Services
 
             };
         }
-
         public async Task<PostResponse> GetPostsOfTopic(int id)
         {
+            await (from p in _context.Replies
+                   select new
+                   {
+                       p.Creator
+                   }).ToListAsync();
             var Posts = await _context.Posts.Where(post => post.Topic.id_Topic == id).ToListAsync();
             await (from p in _context.Posts
                    select new
@@ -120,9 +131,16 @@ namespace API_Manga.Models.Services
         }
         public async Task<ReplyResponse> GetRepliesOfTopic(int id)
         {
+            await (from p in _context.Replies
+                   select new
+                   {
+                       p.Creator
+                   }).ToListAsync();
             await (from p in _context.Posts
                    select new
                    {
+                       p.Creator.id_User,
+                       p.Creator.Nome,
                        p.Creator,
                        p.Topic,
                        p.Topic.Manga,
@@ -153,12 +171,13 @@ namespace API_Manga.Models.Services
 
             };
         }
-
-
-
-
         public async Task<PostResponse> GetPostsOfUser(int id)
         {
+            await (from p in _context.Replies
+                   select new
+                   {
+                       p.Creator
+                   }).ToListAsync();
             var Posts = await _context.Posts.Where(x => x.Creator.id_User == id).ToListAsync();
             await (from p in _context.Posts select new
             {
@@ -184,9 +203,15 @@ namespace API_Manga.Models.Services
 
             };
         }
-
         public async Task<ReplyResponse> GetRepliesOfUser(int id)
         {
+            await (from p in _context.Replies
+                   select new
+                   {
+                       p.Post,
+                       p.Reply,
+                       p.Creator
+                   }).ToListAsync();
             var Replies = await _context.Replies.Where(reply => reply.Creator.id_User == id).ToListAsync();
             await (from p in _context.Posts
                    select new
@@ -216,9 +241,35 @@ namespace API_Manga.Models.Services
         }
         public async Task<CreateUserResponse> GetUserByEmail(string email)
         {
+            await (from p in _context.Replies
+                   select new
+                   {
+                       p.Creator
+                   }).ToListAsync();
             email = email.Replace("%40", "@");
-            ForumUser User = await _context.Users.Where(user => user.Email == email).FirstOrDefaultAsync();
+            ForumUser User = await _context.Users.Where(user => user.Email.ToLower().Trim() == email.ToLower().Trim()).FirstOrDefaultAsync();
       
+            if (User == null)
+            {
+                return new CreateUserResponse()
+                {
+                    state = false,
+                    user = null,
+                    Error = new List<string>() { "Not Found" }
+                };
+            }
+            return new CreateUserResponse()
+            {
+                state = true,
+                user = User,
+                Error = null,
+
+            };
+        }
+        public async Task<CreateUserResponse> GetUserById(int id)
+        {
+            ForumUser User = await _context.Users.Where(user => user.id_User == id).FirstOrDefaultAsync();
+
             if (User == null)
             {
                 return new CreateUserResponse()
@@ -246,7 +297,12 @@ namespace API_Manga.Models.Services
                        p.Creator,
                        p.Topic,
                        p.Topic.Manga,
-                       p.Replies
+                       p.Replies,
+                   }).ToListAsync();
+            await (from p in _context.Replies
+                   select new
+                   {
+                     p.Creator
                    }).ToListAsync();
             if (Posts.Count() == 0)
             {
@@ -276,6 +332,11 @@ namespace API_Manga.Models.Services
                      p.Name,
                      p.Manga
                    }).ToListAsync();
+            await (from p in _context.Replies
+                   select new
+                   {
+                       p.Creator
+                   }).ToListAsync();
             if (Topics.Count() == 0)
             {
                 return new TopicResponse()
@@ -295,16 +356,19 @@ namespace API_Manga.Models.Services
         }
         public async Task<CreateReplyResponse> GetReplyById(int id)
         {
-            var reply = await _context.Replies.Where(reply => reply.id_Reply == id).FirstOrDefaultAsync();
-            await (from p in _context.Posts
+            await (from p in _context.Replies
                    select new
                    {
-                       p.id_Post,
+                       p.id_Reply,
                        p.Creator,
-                       p.Topic,
-                       p.Topic.Manga,
-                       p.Replies
+                       p.ReplyDate,
+                       p.Post,
+                       p.Post.Topic,
+                       p.Post.Replies,
+                       p.Reply
                    }).ToListAsync();
+            var reply = await _context.Replies.Where(reply => reply.id_Reply == id).FirstOrDefaultAsync();
+           
             if (reply == null)
             {
                 return new CreateReplyResponse()
@@ -324,6 +388,7 @@ namespace API_Manga.Models.Services
         }
         public async Task<CreateTopicResponse> GetTopicById(int id)
         {
+
             var Topics = await _context.Topics.Where(topic => topic.id_Topic == id).FirstOrDefaultAsync();
             await (from p in _context.Topics
                    select new
@@ -345,6 +410,39 @@ namespace API_Manga.Models.Services
             {
                 state = true,
                 topic = Topics,
+                Error = null,
+
+            };
+        }
+        public async Task<CreatePostResponse> GetPostByReplyId(int id)
+        {
+            await (from p in _context.Replies
+                   select new
+                   {
+                       p.Creator,
+                       p.ReplyDate,
+                       p.Post,
+                       p.Post.Replies,
+                       p.Reply,
+                       p.Post.Topic,
+                       p.Post.Topic.Manga
+                   }).ToListAsync();
+        
+            var reply = await _context.Replies.Where(x => x.id_Reply == id).FirstOrDefaultAsync();
+
+            if (reply.Post == null)
+            {
+                return new CreatePostResponse()
+                {
+                    state = false,
+                    post = null,
+                    Error = new List<string>() { "Not Found" }
+                };
+            }
+            return new CreatePostResponse()
+            {
+                state = true,
+                post = reply.Post,
                 Error = null,
 
             };
@@ -371,7 +469,7 @@ namespace API_Manga.Models.Services
                     new ForumReply
                     (   creator,
                         request.Message,
-                        DateTime.Now.Date
+                        DateTime.Now
                         )});
                 await _context.AddAsync(Post);
                 await _context.SaveChangesAsync();
@@ -411,7 +509,7 @@ namespace API_Manga.Models.Services
                     (
                     _context.Users.Where(x => x.id_User == request.id_Creator).FirstOrDefault(),
                     request.Reply,
-                    DateTime.Now.Date,
+                    DateTime.Now,
                     _context.Posts.Where(x => x.id_Post == request.id_Post).FirstOrDefault()
                     );
                 await _context.AddAsync(Reply);
@@ -495,7 +593,8 @@ namespace API_Manga.Models.Services
                     Cognome = request.Cognome,
                     DataDiNascita = request.DataDiNascita,
                     Nazione = request.Nazione,
-                    Email = request.Email
+                    Email = request.Email,
+                    UserImage = request.UserImage
                 };
 
                 await _context.AddAsync(User);
@@ -545,7 +644,7 @@ namespace API_Manga.Models.Services
                 User.Cognome = request.Cognome;
                 User.DataDiNascita = request.DataDiNascita;
                 User.Nazione = request.Nazione;
-                User.Email = request.Email;  
+                User.UserImage = request.UserImage;
                     await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException ex)
@@ -565,7 +664,6 @@ namespace API_Manga.Models.Services
             };
 
         }
-
         public async Task<DeleteReplyResponse> DeleteReply(DeleteReplyRequest request)
         {
             await (from p in _context.Replies
@@ -607,7 +705,6 @@ namespace API_Manga.Models.Services
                 Error = null
             };
         }
-
         public async Task<DeleteTopicResponse> DeleteTopic(DeleteTopicRequest request)
         {
             await (from p in _context.Posts
@@ -658,7 +755,6 @@ namespace API_Manga.Models.Services
                 Error = null
             };
         }
-
         public async Task<DeletePostResponse> DeletePost(DeletePostRequest request)
         {
             await (from p in _context.Posts
@@ -706,7 +802,6 @@ namespace API_Manga.Models.Services
                 Error = null
             };
         }
-
         public async Task<CreateTopicResponse> ModTopic(ModTopicRequest request)
         {
             await (from p in _context.Posts
@@ -751,7 +846,6 @@ namespace API_Manga.Models.Services
             };
 
         }
-
         public async Task<CreateReplyResponse> ModReply(ModReplyRequest request)
         {
 
@@ -762,7 +856,7 @@ namespace API_Manga.Models.Services
                        m.ReplyDate,
                        m.Creator,
                        m.Reply,
-                       m.Post.id_Post
+                       m.Post
                    }).ToListAsync();
 
             ForumReply Reply = await _context.Replies.FirstOrDefaultAsync(reply => reply.id_Reply == request.id_Reply);
@@ -778,7 +872,7 @@ namespace API_Manga.Models.Services
             try
             {
                 Reply.Reply = request.Reply;
-                Reply.ReplyDate = DateTime.Now.Date;
+                Reply.ReplyDate = DateTime.Now;
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException ex)

@@ -1,7 +1,7 @@
 ﻿@page
 @model TopicModel
 @{
-     int Replies = 0;
+    int Replies = 0;
     int Posts = 0;
     string Msg = "-";
     int cont = 1;
@@ -28,56 +28,61 @@
 <div class="row " style="display: flex;flex-wrap: wrap;align-content: space-between;justify-content: space-around;align-items: flex-end;flex-direction: row;">
     <form method="get">
         <div class="form-actions no-color" style="display: flex;margin: 0px 0px 20px;">
-                <input type="text" style="" name="Name" class="form-control" placeholder="Cerca per nome topic..."/>
-                <input style="display:inline;background-color:whitesmoke;margin: 0px 10px;" type="submit" value="Search" class="btn btn-outline-dark justify-content-md-center" />
+            <input type="text" style="" name="Name" class="form-control" placeholder="Cerca per nome topic..." />
+            <input style="display:inline;background-color:whitesmoke;margin: 0px 10px;" type="submit" value="Search" class="btn btn-outline-dark justify-content-md-center" />
         </div>
     </form>
-     <form  method="get"> 
+    <form method="get">
 
-        <p><input  style="background-color:whitesmoke" type="submit" name="Ordina" value="Ordina per numero di post" class="btn btn-outline-dark" /></p>
+        <p><input style="background-color:whitesmoke" type="submit" name="Ordina" value="Ordina per numero di post" class="btn btn-outline-dark" /></p>
+    </form>
+     <form class="form-inline">
+    <p><a asp-page="Topics" style="display:inline;background-color:whitesmoke" class="btn btn-outline-dark">Ritorna alla lista completa</a></p>
     </form>
 
 </div>
-  <div class="u-expanded-width u-table u-table-responsive u-table-2">
-            <table class="u-table-entity u-table-entity-2">
-                <colgroup>
-                    <col width="6%">
-                    <col width="40.9%">
-                    <col width="10.8%">
-                    <col width="10.9%">
-                    <col width="31.5%">
-                </colgroup>
-                <thead class="u-grey-50 u-table-header u-text-black u-table-header-2">
-                    <tr style="height: 30px;">
-                        <th class="u-border-2 u-border-grey-40 u-table-cell"></th>
-                        <th class="u-border-2 u-border-grey-40 u-table-cell">&gt; TOPICS</th>
-                        <th class="u-border-2 u-border-grey-40 u-table-cell">Discussioni</th>
-                        <th class="u-border-2 u-border-grey-40 u-table-cell">Risposte</th>
-                        <th class="u-border-2 u-border-grey-40 u-table-cell">Ultimo messaggio</th>
-                    </tr>
-                </thead>
-                <tbody class="u-palette-1-light-3 u-table-body u-table-body-2">
-                     @foreach(var item in Model.EleTopics)
-                    {
-                        if(APICaller.GetPostOfTopic(item.id_Topic).Result.state)
-                        Posts =APICaller.GetPostOfTopic(item.id_Topic).Result.posts.Count;
-                        if(APICaller.GetRepliesOfTopic(item.id_Topic).Result.state)
-                        Replies = APICaller.GetRepliesOfTopic(item.id_Topic).Result.replies.Count;
-                        if(APICaller.GetRepliesOfTopic(item.id_Topic).Result.state)
-                        Msg = APICaller.GetRepliesOfTopic(item.id_Topic).Result.replies.OrderBy(x=>x.ReplyDate).First().Reply;
-                        <tr style="height: 59px;">
-                                <td class="u-border-1 u-border-grey-40 u-table-cell"> 
-                                    <div style="background-image: url('data:image/png;base64,@item.Manga.Image');width:46px;height: 46px;background-position: 50% 50%;border-radius: 50%;background-size: cover;"
-                                alt="@item.Manga.Title" data-image-width="1280" data-image-height="800"/></td>
-                            <td class="u-border-1 u-border-grey-40 u-table-cell"><a asp-page="./ElePosts" asp-route-id="@item.id_Topic">@item.Name</a></td>
-                            <td class="u-align-left u-border-1 u-border-grey-40 u-table-cell">@Posts</td>
-                            <td class="u-border-1 u-border-grey-40 u-table-cell">@Replies</td>                                        
-                            <td class="u-border-1 u-border-grey-40 u-table-cell">@Msg</td>                        
-                        </tr>
-                        Posts = 0;
-                        Replies = 0;
-                        Msg = "-";
-                    }
-                </tbody>
-            </table>
-        </div>
+<div class="u-expanded-width u-table u-table-responsive u-table-2">
+    <a asp-page="/CreateTopic" class="u-border-none u-btn u-btn-round u-button-style u-hover-palette-1-light-2 u-palette-1-light-1 u-radius-13 u-btn-1">Crea Topic</a>
+    <table class="u-table-entity u-table-entity-2">
+        <colgroup>
+            <col width="6%">
+            <col width="40.9%">
+            <col width="10.8%">
+            <col width="10.9%">
+            <col width="31.5%">
+        </colgroup>
+        <thead class="u-grey-50 u-table-header u-text-black u-table-header-2">
+            <tr style="height: 30px;">
+                <th class="u-border-2 u-border-grey-40 u-table-cell"></th>
+                <th class="u-border-2 u-border-grey-40 u-table-cell">&gt; TOPICS</th>
+                <th class="u-border-2 u-border-grey-40 u-table-cell">Discussioni</th>
+                <th class="u-border-2 u-border-grey-40 u-table-cell">Risposte</th>
+                <th class="u-border-2 u-border-grey-40 u-table-cell">Ultimo messaggio</th>
+            </tr>
+        </thead>
+        <tbody class="u-palette-1-light-3 u-table-body u-table-body-2">
+            @foreach (var item in Model.EleTopics)
+            {
+                if (APICaller.GetPostOfTopic(item.id_Topic).Result.state)
+                    Posts = APICaller.GetPostOfTopic(item.id_Topic).Result.posts.Count;
+                if (APICaller.GetRepliesOfTopic(item.id_Topic).Result.state)
+                    Replies = APICaller.GetRepliesOfTopic(item.id_Topic).Result.replies.Count;
+                if (APICaller.GetRepliesOfTopic(item.id_Topic).Result.state)
+                    Msg = APICaller.GetRepliesOfTopic(item.id_Topic).Result.replies.OrderBy(x => x.ReplyDate).First().Reply;
+                <tr style="height: 59px;">
+                    <td class="u-border-1 u-border-grey-40 u-table-cell">
+                        <div style="background-image: url('data:image/png;base64,@item.Manga.Image');width:46px;height: 46px;background-position: 50% 50%;border-radius: 50%;background-size: cover;"
+                         alt="@item.Manga.Title" data-image-width="1280" data-image-height="800" />
+                    </td>
+                    <td class="u-border-1 u-border-grey-40 u-table-cell"><a asp-page="./ElePosts" asp-route-id="@item.id_Topic">@item.Name</a></td>
+                    <td class="u-align-left u-border-1 u-border-grey-40 u-table-cell">@Posts</td>
+                    <td class="u-border-1 u-border-grey-40 u-table-cell">@Replies</td>
+                    <td class="u-border-1 u-border-grey-40 u-table-cell">@Msg</td>
+                </tr>
+                Posts = 0;
+                Replies = 0;
+                Msg = "-";
+            }
+        </tbody>
+    </table>
+</div>

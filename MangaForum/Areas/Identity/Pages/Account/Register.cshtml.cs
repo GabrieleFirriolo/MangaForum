@@ -16,7 +16,8 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using MangaForum.Data;
 using MangaForum.Models.Utilities.Requests;
-
+using Microsoft.AspNetCore.Http;
+using System.IO;
 namespace MangaForum.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
@@ -45,7 +46,14 @@ namespace MangaForum.Areas.Identity.Pages.Account
         public string ReturnUrl { get; set; }
 
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
+        public class Upload
+        {
 
+            [Required]
+            [Display(Name = "Avatar")]
+            [DataType(DataType.Upload)]
+            public IFormFile FileSubmitted { get; set; }
+        }
         public class InputModel
         {
             
@@ -66,6 +74,8 @@ namespace MangaForum.Areas.Identity.Pages.Account
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
+            
+            public Upload UserImage { get; set; }
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
@@ -86,16 +96,26 @@ namespace MangaForum.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new ForumUser { UserName = Input.Email, Email = Input.Email,Nome = Input.Nome,Cognome = Input.Cognome,DataDiNascita = Input.DataDiNascita,Nazione = Input.Nazione };
+                string Img = "";
+                using (var ms = new MemoryStream())
+                {
+                    Input.UserImage.FileSubmitted.CopyTo(ms);
+                    var bytes = ms.ToArray();
+                    string s = Convert.ToBase64String(bytes);
+                    Img = s;
+                }
+                var user = new ForumUser { UserName = Input.Email, Email = Input.Email,Nome = Input.Nome,Cognome = Input.Cognome,DataDiNascita = Input.DataDiNascita,Nazione = Input.Nazione, UserImage = Img};
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
-                    await APICaller.CreateUser(new CreateUserRequest { Email = Input.Email, Nome = Input.Nome, Cognome = Input.Cognome, DataDiNascita = Input.DataDiNascita, Nazione = Input.Nazione});
+                 
+                    await APICaller.CreateUser(new CreateUserRequest { Email = Input.Email, Nome = Input.Nome, Cognome = Input.Cognome, DataDiNascita = Input.DataDiNascita, Nazione = Input.Nazione,UserImage = Img });
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(

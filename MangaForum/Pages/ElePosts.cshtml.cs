@@ -23,9 +23,31 @@ namespace MangaForum.Pages
         public int Id { get; set; }
         [BindProperty]
         public List<ForumPost> ElePosts { get; set; }
+        public bool check = false;
 
         public async Task<IActionResult> OnGet(int id, string SearchUser, string Ordina)
         {
+            var userid = APICaller.GetUserByEmail(User.Identity.Name).Result.user.id_User;
+            if (APICaller.GetPostOfUser(userid).Result.state)
+            {
+                var eleposts = APICaller.GetPostOfTopic(id).Result.posts.Where(x => x.Topic.id_Topic == id).ToList();
+                List<KeyValuePair<DateTime, ForumPost>> mylist2 = new List<KeyValuePair<DateTime, ForumPost>>();
+                List<ForumPost> result = new List<ForumPost>();
+                foreach (var item in eleposts)
+                {
+                    if (item.Replies != null)
+                        mylist2.Add(new KeyValuePair<DateTime, ForumPost>(item.Replies.OrderBy(x => x.ReplyDate).First().ReplyDate, item));
+                }
+                foreach (var lastpost in mylist2.OrderBy(x => x.Key))
+                {
+                    result.Add(lastpost.Value);
+                }
+                if (result.First().Creator.id_User == userid)
+                {
+                    check = true;
+                }
+
+            }
             if (SearchUser != null)
             {
                 ElePosts = APICaller.GetPostOfTopic(id).Result.posts;

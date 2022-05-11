@@ -233,7 +233,7 @@ namespace MangaForum.Data
                 return null;
             }
         }
-        public static async Task<CreateReplyResponse> GetRelyById(int  id)
+        public static async Task<CreateReplyResponse> GetReplyById(int  id)
         {
             HttpClient client = new HttpClient();
             try
@@ -249,10 +249,41 @@ namespace MangaForum.Data
                 return null;
             }
         }
+        public static async Task<CreatePostResponse> GetPostByReplyId(int id)
+        {
+            HttpClient client = new HttpClient();
+            try
+            {
+                var result = await client.GetStringAsync(url + $"api/Manga/post/byreplyid={id}");
 
-        #endregion
+                CreatePostResponse response = JsonConvert.DeserializeObject<CreatePostResponse>(result);
 
-        public static async Task<CreatePostResponse> CreatePost(CreatePostRequest request)
+                return response;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        public static async Task<CreateUserResponse> GetUserById(int id)
+        {
+            HttpClient client = new HttpClient();
+            try
+            {
+                var result = await client.GetStringAsync(url + $"api/Manga/user/byid={id}");
+
+                CreateUserResponse response = JsonConvert.DeserializeObject<CreateUserResponse>(result);
+
+                return response;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+#endregion
+
+public static async Task<CreatePostResponse> CreatePost(CreatePostRequest request)
         { 
             var httpWebRequest = (HttpWebRequest)WebRequest.Create(url + "api/Manga/CreatePost");
             httpWebRequest.ContentType = "application/json";

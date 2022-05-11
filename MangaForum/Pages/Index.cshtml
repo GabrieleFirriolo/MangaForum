@@ -52,7 +52,7 @@
                         <tr style="height: 51px;">
                             <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">
                                 <a asp-page="./Posts" asp-route-id="@item.id_Post">@item.Topic.Name</a><br />
-                               <a>Da : @item.Creator.Nome</a> <br />
+                                Da : <a asp-page="UserPage" asp-route-id="@item.Creator.id_User">@item.Creator.Nome</a><br />
                                @if(item.Replies != null)
                                {<a> Risposte : @item.Replies.Count</a>}
                                else{<a> Risposte : -</a> }<br />
@@ -93,12 +93,13 @@
                         if (APICaller.GetRepliesOfTopic(item.id_Topic).Result.state)
                             Replies = APICaller.GetRepliesOfTopic(item.id_Topic).Result.replies.Count;
                         if (APICaller.GetRepliesOfTopic(item.id_Topic).Result.state)
-                            Msg = APICaller.GetRepliesOfTopic(item.id_Topic).Result.replies.OrderBy(x => x.ReplyDate).First();
+                            Msg = APICaller.GetRepliesOfTopic(item.id_Topic).Result.replies.OrderByDescending(x => x.ReplyDate).First();
+                        ;
                         <tr style="height: 59px;">
                             @if (cont == 1)
                             {
                                 <td class="u-border-1 u-border-grey-40 u-table-cell">
-                                    <div style="background-image: url('data:image/png;base64,@item.Manga.Image')"
+                                    <div style="background-image: url('data:image/png;base64,@item.Manga.Image');margin:auto;"
                                          class="u-image u-image-circle u-image-2" alt="@item.Manga.Title" data-image-width="1280" data-image-height="800"></div>
                                 </td>
                                 cont++;
@@ -107,7 +108,7 @@
                             else
                             {
                                 <td class="u-border-1 u-border-grey-40 u-table-cell">
-                                    <div style="background-image: url('data:image/png;base64,@item.Manga.Image')"
+                                    <div style="background-image: url('data:image/png;base64,@item.Manga.Image');margin:auto;"
                                          class="u-image u-image-circle u-image-@cont" alt="@item.Manga.Title" data-image-width="1280" data-image-height="800"></div>
                                 </td>
                             }
@@ -118,8 +119,8 @@
                             {
                                 <td class="u-border-1 u-border-grey-40 u-table-cell"style="max-width: 10px;overflow: hidden;">
                                     @Msg.Reply<br />
-                                    Da : @Msg.Creator.Nome<br />
-                                    Il : @Msg.ReplyDate.Date.ToString("dd/mm/yyyy")
+                                    Da : <a asp-page="UserPage" asp-route-id="@Msg.Creator.id_User">@Msg.Creator.Nome</a><br />
+                                    Il : @Msg.ReplyDate.Date.ToString("dd/MM/yyyy")
                                 </td>
                             }else
                             {

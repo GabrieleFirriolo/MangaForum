@@ -18,8 +18,7 @@ namespace API_Manga.Models.Utilities.Requests
         public DateTime DataDiNascita { get; set; }
         [Required]
         public string Nazione { get; set; }
-        [Required]
-        public string Email { get; set; }
+        public string UserImage { get; set; }
 
     }
 }

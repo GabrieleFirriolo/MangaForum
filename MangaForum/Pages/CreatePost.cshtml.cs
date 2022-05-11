@@ -28,18 +28,18 @@ namespace MangaForum.Pages
         public string FirstMessage { get; set; }
 
 
-        public async Task<IActionResult> OnGet()
+        public async Task<IActionResult> OnGet(int id)
         {
             try
-            {
-                EleTopics = APICaller.GetAllTopics().Result;
+            { EleTopics = APICaller.GetAllTopics().Result; }
+            catch { return Redirect("/Error"); }
 
-            }
-            catch (Exception ex)
+            if (id != 0)
             {
-                return RedirectToPage("/Error");
-
+                Topic = APICaller.GetTopicById(id).Result.topic;
+                return Page();
             }
+
             return Page();
         }
         public async Task<IActionResult> OnPostAsync()
