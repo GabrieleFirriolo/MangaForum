@@ -1,6 +1,7 @@
 ﻿using MangaForum.Areas;
 using MangaForum.Data;
 using MangaForum.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace MangaForum.Pages
 {
+    [Authorize]
     public class UserPageModel : PageModel
     {
         public readonly MangaIdentityDbContext _context;

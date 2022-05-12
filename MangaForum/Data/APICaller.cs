@@ -17,9 +17,10 @@ namespace MangaForum.Data
 {
     public class APICaller
     {
-        public static string url = "https://localhost:5001/";
+        public static string url = "https://localhost:44342/";
+        //public static string url = "https://localhost:5001/";
         //public static string url = "https://localhost:44342/";
-        
+
 
         #region GET
         public static async Task<List<Manga>> GetAllMangas()

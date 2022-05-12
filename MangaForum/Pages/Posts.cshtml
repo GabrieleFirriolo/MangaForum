@@ -11,8 +11,8 @@
     <meta name="description" content="">
     <meta name="page_type" content="np-template-header-footer-from-plugin">
     <title>Post</title>
-    <link rel="stylesheet" href="~/css/nicepage.css" media="screen">
-    <link rel="stylesheet" href="~/css/Post.css" media="screen">
+@*    <link rel="stylesheet" href="~/css/nicepage.css" media="screen">
+*@    <link rel="stylesheet" href="~/css/Post.css" media="screen">
     <script class="u-script" type="text/javascript" src="~/css/jquery.js" defer=""></script>
     <script class="u-script" type="text/javascript" src="~/css/nicepage.js" defer=""></script>
     <meta name="generator" content="Nicepage 4.9.5, nicepage.com">
@@ -40,7 +40,7 @@
              <table style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                  <tr>
                      <th style="width: 25%; background-color: #3e567b;padding: 0px 10px;">
-                         @item.Creator.Nome
+                    <a asp-page="UserPage" asp-route-id="@item.Creator.id_User">@item.Creator.Nome</a>
                      </th>
                      <th style="width: 100%;background-color: #3e567b;display: flex;justify-content: space-between;">
                          <a >Inviato il : @item.ReplyDate.Date.ToString("dd/MM/yyyy hh:mm")</a>
