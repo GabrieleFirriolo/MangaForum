@@ -73,12 +73,10 @@
 
                 @if (Model.ForumUser.Email == User.Identity.Name)
                 {
-                    <form method="post" style="display:inline-block">
                         <div class="profile-card-ctr">
-                            <input value="Modifica Profilo" class="profile-card__button button--blue js-message-btn" />
-                        </div>
+<input value="Modifica Profilo" class="profile-card__button button--blue js-message-btn" readonly="" style="text-align: center;">  
+</div>
                         <input type="hidden" asp-for="ForumUser.id_User" value="@Model.ForumUser.id_User" />
-                    </form>
                 }
 
             </div>

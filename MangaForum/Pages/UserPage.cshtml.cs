@@ -33,6 +33,7 @@ namespace MangaForum.Pages
             if (!APICaller.GetPostOfUser(userid).Result.state)
             {
                 Topics = 0;
+                ForumUser = APICaller.GetUserById(id).Result.user;
                 return Page();
             }
 

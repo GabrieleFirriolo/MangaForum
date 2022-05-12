@@ -166,6 +166,9 @@
             </div>
         </div>
         <img class="u-image u-image-round u-radius-10 u-image-8" src="~/images/pngegg12.png" alt="" data-image-width="757" data-image-height="854">
+        @if(!User.Identity.IsAuthenticated)
+        {
         <a class="u-active-palette-3-dark-3 u-border-none u-btn u-btn-round u-button-style u-grey-50 u-hover-palette-3-dark-3 u-radius-50 u-btn-2" asp-area="Identity" asp-page="/Account/Register" target="_blank" data-animation-name="customAnimationIn" data-animation-duration="1000">REGISTRATI ORA !</a>
-    </div>
+    
+        }</div>
 </section>

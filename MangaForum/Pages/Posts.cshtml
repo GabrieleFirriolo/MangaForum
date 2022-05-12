@@ -43,7 +43,7 @@
                     <a asp-page="UserPage" asp-route-id="@item.Creator.id_User">@item.Creator.Nome</a>
                      </th>
                      <th style="width: 100%;background-color: #3e567b;display: flex;justify-content: space-between;">
-                         <a >Inviato il : @item.ReplyDate.Date.ToString("dd/MM/yyyy hh:mm")</a>
+                         <a >Inviato il : @item.ReplyDate.Date.ToString("dd/MM/yyyy")</a>
                             @if (Model.post.Creator.Email == User.Identity.Name && !check)
                             {
                                 <form method="post" style="display:inline-block">
