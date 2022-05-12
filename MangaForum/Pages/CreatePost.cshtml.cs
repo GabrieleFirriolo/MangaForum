@@ -44,8 +44,9 @@ namespace MangaForum.Pages
         }
         public async Task<IActionResult> OnPostAsync()
         {
-            if(Topic.Name == null)
+            if(Topic.id_Topic == 0 || FirstMessage == "")
             {
+                EleTopics = APICaller.GetAllTopics().Result;
                 return Page();
             }
             var user = _context.Users.Where(x => x.Email == User.Identity.Name).First();

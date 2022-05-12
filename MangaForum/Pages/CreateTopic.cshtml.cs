@@ -57,19 +57,17 @@ namespace MangaForum.Pages
         public bool check = false;
         public async Task<IActionResult> OnPostAsync(string Button)
         {
-            if(Topic.Manga.Title == null && Topic.Name == null && FirstPostMessage == null && Button == null)
+            if(((Topic.Manga.Title == null || Topic.Name == null || FirstPostMessage == null) && Button == null) || Topic.Manga.Title == null )
             {
                 return Page();
             }
+            
             if (APICaller.GetMangaByName(Topic.Manga.Title).Result.state)
                 Manga = APICaller.GetMangaByName(Topic.Manga.Title).Result.mangas.First();
             else
             {
-                Manga = new Manga
-                {
-                    Image = _ImgOnError,
-                    Title = "Not Found",
-                };
+                MangaTitleTrovato = "Not Found!";
+                Manga.Image = _ImgOnError;
                 return Page();
             }
             if (Button != null)

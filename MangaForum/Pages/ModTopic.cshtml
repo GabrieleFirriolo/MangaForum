@@ -34,6 +34,8 @@
                 <div class="u-form-group u-form-group-1">
                   <label for="text-2c8a" class="u-label u-label-1">Titolo</label>
                   <input asp-for="Topic.Name"type="text" placeholder="Inserire il titolo per il topic ..." id="text-2c8a" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-radius-7 u-white">
+                   <span asp-validation-for="Topic.Name" class="text-danger"></span>
+
                 </div>
                 <div class="u-form-group u-form-group-3">
                   <label for="text-39f8" class="u-label u-label-3">Manga</label>

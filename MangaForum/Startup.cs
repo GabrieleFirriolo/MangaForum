@@ -32,9 +32,11 @@ namespace MangaForum
                 options.UseSqlite(
                     Configuration.GetConnectionString("MangaConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
+            
             services.AddDefaultIdentity<ForumUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<MangaIdentityDbContext>();
             services.AddRazorPages();
+            APICaller.url = Configuration.GetValue<string>("Address");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

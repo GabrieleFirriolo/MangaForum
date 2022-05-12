@@ -2,6 +2,7 @@
 using MangaForum.Data;
 using MangaForum.Models;
 using MangaForum.Models.Utilities.Requests;
+using MangaForum.Models.Utilities.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -49,7 +50,11 @@ namespace MangaForum.Pages
         }
         public async Task<IActionResult> OnPostAsync()
         {
-            var reply = await APICaller.ModReply(new ModReplyRequest {  id_Reply= Reply.id_Reply,Reply = Reply.Reply });
+            CreateReplyResponse reply = default;
+            if (Reply.Reply != "")
+                reply = await APICaller.ModReply(new ModReplyRequest { id_Reply = Reply.id_Reply, Reply = Reply.Reply });
+            else
+                return Page();
             if (reply.state)
                 return Redirect($"/Posts?id={Post.id_Post}");
             else

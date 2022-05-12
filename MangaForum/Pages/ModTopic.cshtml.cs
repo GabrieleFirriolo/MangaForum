@@ -2,6 +2,7 @@
 using MangaForum.Data;
 using MangaForum.Models;
 using MangaForum.Models.Utilities.Requests;
+using MangaForum.Models.Utilities.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -79,9 +80,11 @@ namespace MangaForum.Pages
         public bool check = false;
         public async Task<IActionResult> OnPostAsync()
         {
-
-
-            var response = await APICaller.ModTopic(new ModTopicRequest { id_Topic = Topic.id_Topic, Name = Topic.Name });
+            CreateTopicResponse response = default;
+            if (Topic.Name == "" || Topic.Name != null)
+                response = await APICaller.ModTopic(new ModTopicRequest { id_Topic = Topic.id_Topic, Name = Topic.Name });
+            else
+                return Page();
             if (response.state)
                 return Redirect($"/ElePosts?id={Topic.id_Topic}");
             else
