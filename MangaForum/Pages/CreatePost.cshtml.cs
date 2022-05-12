@@ -44,6 +44,10 @@ namespace MangaForum.Pages
         }
         public async Task<IActionResult> OnPostAsync()
         {
+            if(Topic.Name == null)
+            {
+                return Page();
+            }
             var user = _context.Users.Where(x => x.Email == User.Identity.Name).First();
             var post = await APICaller.CreatePost(new CreatePostRequest {id_Creator = user.id_User, id_Topic = Topic.id_Topic, Message = FirstMessage});
 

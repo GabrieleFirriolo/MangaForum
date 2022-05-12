@@ -43,7 +43,7 @@ namespace MangaForum.Pages
         }
         public async Task<IActionResult> OnPostAsync(int id)
         {
-
+            
             int user = _manager.GetUserAsync(User).Result.id_User;
             var reply = APICaller.CreateReply(new CreateReplyRequest { id_Creator = user,id_Post = id, Reply = Reply.Reply });
 

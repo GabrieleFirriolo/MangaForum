@@ -31,6 +31,7 @@ namespace MangaForum.Pages
         [BindProperty]
         public Manga Manga { get; set; }
         [BindProperty]
+        
         public string FirstPostMessage { get; set; }
         public string MangaTitleTrovato { get; set; }
 
@@ -56,6 +57,10 @@ namespace MangaForum.Pages
         public bool check = false;
         public async Task<IActionResult> OnPostAsync(string Button)
         {
+            if(Topic.Manga.Title == null && Topic.Name == null && FirstPostMessage == null && Button == null)
+            {
+                return Page();
+            }
             if (APICaller.GetMangaByName(Topic.Manga.Title).Result.state)
                 Manga = APICaller.GetMangaByName(Topic.Manga.Title).Result.mangas.First();
             else
@@ -65,8 +70,9 @@ namespace MangaForum.Pages
                     Image = _ImgOnError,
                     Title = "Not Found",
                 };
+                return Page();
             }
-            if (Button == "Check")
+            if (Button != null)
             {
                 MangaTitleTrovato = Manga.Title;
                 return Page();

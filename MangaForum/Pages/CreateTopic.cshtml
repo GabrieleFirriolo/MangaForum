@@ -33,10 +33,14 @@
                 <div class="u-form-group u-form-group-1">
                   <label for="text-2c8a" class="u-label u-label-1">Titolo</label>
                   <input asp-for="Topic.Name"type="text" placeholder="Inserire il titolo per il topic ..." id="text-2c8a" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-radius-7 u-white">
+                                  <span asp-validation-for="Topic.Name" class="text-danger"></span>
+
                 </div>
                 <div class="u-form-group u-form-group-3">
                   <label for="text-39f8" class="u-label u-label-3">Manga</label>
                       <input asp-for="Topic.Manga.Title" type="text" placeholder="Cerca un manga ..." id="input" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-radius-7 u-white" style="display:inline;">
+                                                        <span asp-validation-for="Topic.Manga.Title" class="text-danger"></span>
+
                       <input readonly asp-for="@Model.MangaTitleTrovato" type="text" placeholder="Clicca il bottone per l'anteprima'" id="txt"class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-radius-7 u-white" style="width: 300px;display: inline-block;-webkit-user-modify: read-only;">
                       <div id="img" style="background-image: url('data:image/png;base64,@Model.Manga.Image');width:46px;height: 46px;background-position: 50% 50%;border-radius: 50%;background-size: cover;display:inline;margin: 10px 10px -20px;display:inline-block"
                                     alt="@Model.Manga.Title" data-image-width="1280" data-image-height="800"></div>
@@ -45,6 +49,8 @@
                 <div class="u-form-group u-form-message">
                   <label for="message-ba0f" class="u-label u-label-4">Messaggio</label>
                   <textarea asp-for="FirstPostMessage" placeholder="Scrivere il messaggio ..." rows="4" cols="50" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-radius-7 u-white" maxlength="500"></textarea>
+                                                    <span asp-validation-for="FirstPostMessage" class="text-danger"></span>
+
                 </div>
                 <div class="u-align-center u-form-group u-form-submit">
                   <input type="submit" value="Crea" class="u-border-none u-btn u-btn-round u-btn-submit u-button-style u-hover-palette-1-light-2 u-palette-1-light-1 u-radius-13 u-btn-1"/>
